@@ -1,37 +1,23 @@
-import React, { ChangeEvent, useState } from "react";
-import { makeStyles } from "@mui/styles";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-} from "firebase/auth";
-import Card from "@mui/material/Card";
-import formValidation from "../../helpers/formValidation";
+import { TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { TextField } from "@mui/material";
-import { Box } from "@mui/system";
+import { makeStyles } from "@mui/styles";
+import app from "../../base.js";
+import axios from "axios";
+import {
+  onAuthStateChanged,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import React, { useState } from "react";
+import CenterCard from "../../components/organisms/CenterCard";
 import {
   PASSWORD_NOT_MATCH_TEXT,
   PASSWORD_PATTERN,
 } from "../../constants/formValidation";
-import axios from "axios";
-import CenterCard from "../../components/organisms/CenterCard";
-
-require("../../firebase");
-
-const useStyles = makeStyles({
-  loginRoot: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  cardRoot: { padding: "3rem" },
-});
+import formValidation from "../../helpers/formValidation";
+import { useHistory } from "react-router";
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -76,56 +62,26 @@ const signInWithGoogle = () => {
       // ...
     });
 };
-const signUp = (email?: string, password?: string) => {
-  console.log(email, password);
-  if (!email || !password) {
-    return;
-  }
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log(userCredential);
-      // Signed in
-      const user = userCredential.user;
-      console.log(user);
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    user.getIdToken().then((token) => {
+      console.log(token);
+      //todo redirect to home
     });
-};
-
-const getHelloWorld = async (token: string) => {
-  console.log(token);
-  const res = await axios.get(
-    "https://fvwiw2gj7j.execute-api.us-west-1.amazonaws.com/dev/hello",
-    {
-      headers: {
-        token,
-      },
-    }
-  );
-  console.log(res);
-};
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     user.getIdToken().then((token) => {
-//       getHelloWorld(token);
-//     });
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 function LoginPage() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const history = useHistory();
   const loginCardContent = () => (
     <>
       <div>Welcome To Stock Sansaar</div>
@@ -154,8 +110,9 @@ function LoginPage() {
         helperText={passwordError ? PASSWORD_NOT_MATCH_TEXT : null}
         error={passwordError}
       />
-      <Button onClick={() => signUp(email, password)}>SignUp</Button>
       <Button onClick={() => signIn(email, password)}>SignIn</Button>
+      <Typography variant="body2">OR</Typography>
+      <Button onClick={() => history.push("/signup")}>Sign Up</Button>
     </>
   );
   return <CenterCard content={loginCardContent()} />;

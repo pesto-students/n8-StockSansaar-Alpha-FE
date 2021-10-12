@@ -1,10 +1,10 @@
-import { AppBar, Button, Card, Toolbar, Typography } from "@mui/material";
-import React from "react";
-import { makeStyles } from "@mui/styles";
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-const useStyles = makeStyles({});
+import React from "react";
+import { getAuth, signOut } from "firebase/auth";
 
 function TopNav() {
+  const auth = getAuth();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -13,7 +13,21 @@ function TopNav() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             StockSansaar
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              signOut(auth)
+                .then((res) => {
+                  console.log("Logout Successful: ", res);
+                  // Sign-out successful.
+                })
+                .catch((error) => {
+                  // An error happened.
+                });
+            }}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
