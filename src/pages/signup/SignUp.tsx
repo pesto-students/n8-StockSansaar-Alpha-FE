@@ -1,5 +1,5 @@
-import { Grid, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Grid, makeStyles, TextField } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import CenterCard from "../../components/organisms/CenterCard";
@@ -11,7 +11,11 @@ import {
 import formValidation from "../../helpers/formValidation";
 
 const auth = getAuth();
-
+const useStyles = makeStyles({
+  containerWidth: {
+    width: "40rem",
+  },
+});
 const signUp = (email?: string, password?: string) => {
   console.log(email, password);
   if (!email || !password) {
@@ -33,6 +37,7 @@ const signUp = (email?: string, password?: string) => {
 };
 
 function SignUpPage() {
+  const classes = useStyles();
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [email, setEmail] = useState<string>();
@@ -41,7 +46,7 @@ function SignUpPage() {
 
   const signUpContent = () => (
     <>
-      <Grid container width="40rem">
+      <Grid container className={classes.containerWidth}>
         <Grid item xs={6}>
           <TextField
             autoFocus
@@ -80,12 +85,14 @@ function SignUpPage() {
             helperText={passwordError ? PASSWORD_NOT_MATCH_TEXT : null}
             error={passwordError}
           />
-          <Button
-            disabled={password === confirmPassword ? true : false}
-            onClick={() => signUp(email, password)}
-          >
-            Sign Up
-          </Button>
+          <div>
+            <Button
+              disabled={password === confirmPassword ? true : false}
+              onClick={() => signUp(email, password)}
+            >
+              Sign Up
+            </Button>
+          </div>
         </Grid>
         <Grid item xs={6}>
           <img src={image} />

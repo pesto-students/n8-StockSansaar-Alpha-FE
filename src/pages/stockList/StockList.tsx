@@ -1,10 +1,11 @@
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import Box from "@material-ui/core/Box";
 import React from "react";
 import nifty50Data from "../../mockdata/indexData";
 import { useHistory } from "react-router-dom";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import { Tab, Tabs, Typography } from "@mui/material";
+import { Tab, Tabs, Typography } from "@material-ui/core";
+import { DataGrid } from "@mui/x-data-grid";
+
 import clsx from "clsx";
 const columns = [
   { field: "symbol", headerName: "Symbol", width: 150 },
@@ -19,7 +20,7 @@ const columns = [
 export default function StockList() {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
   function a11yProps(index: number) {
@@ -51,8 +52,8 @@ export default function StockList() {
     >
       <DataGrid
         rows={nifty50Data.data}
-        getRowId={(row) => row.symbol}
-        onRowClick={(row) => history.push(row.row.symbol)}
+        getRowId={(row: any) => row.symbol}
+        onRowClick={(row: any) => history.push(row.row.symbol)}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

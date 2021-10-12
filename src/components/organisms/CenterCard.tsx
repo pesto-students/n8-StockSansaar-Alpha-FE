@@ -1,6 +1,7 @@
-import { Card } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import React from "react";
-import { makeStyles } from "@mui/styles";
+
 export type CenterCardProps = {
   content: any;
 };
@@ -12,22 +13,19 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
   },
-  cardRoot: { padding: "3rem" },
+  cardRoot: {
+    padding: "3rem",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
 });
 
 function CenterCard({ content }: CenterCardProps) {
   const classes = useStyles();
   return (
     <div className={classes.loginRoot}>
-      <Card
-        elevation={24}
-        component="form"
-        sx={{
-          padding: "3rem",
-          textAlign: "center",
-          "& .MuiTextField-root": { m: 1, width: "25ch", display: "block" },
-        }}
-      >
+      <Card elevation={24} component="form" className={classes.cardRoot}>
         {content}
       </Card>
     </div>

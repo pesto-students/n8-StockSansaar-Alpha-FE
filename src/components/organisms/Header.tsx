@@ -1,7 +1,7 @@
-import { AppBar, Button, Toolbar, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
 import { getAuth, signOut } from "firebase/auth";
+import Box from "@material-ui/core/Box";
 
 function TopNav() {
   const auth = getAuth();
@@ -10,7 +10,7 @@ function TopNav() {
       <AppBar position="static">
         <Toolbar>
           {/* Todo Add logo */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div">
             StockSansaar
           </Typography>
           <Button

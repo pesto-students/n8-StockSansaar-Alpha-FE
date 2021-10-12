@@ -1,6 +1,6 @@
-import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/system";
+import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import React from "react";
 export type ViewWrapperProps = {
   header: any;

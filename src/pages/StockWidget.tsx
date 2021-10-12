@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { Button, Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Button, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Screener } from "react-ts-tradingview-widgets";
 const useStyles = makeStyles({
