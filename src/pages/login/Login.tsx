@@ -22,23 +22,6 @@ import { useHistory } from "react-router";
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
-const signIn = (email?: string, password?: string) => {
-  console.log(email, password);
-  if (!email || !password) {
-    return;
-  }
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(user);
-      // ...
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 const signInWithGoogle = () => {
   console.log("hello there");
   signInWithPopup(auth, provider)
@@ -62,26 +45,29 @@ const signInWithGoogle = () => {
       // ...
     });
 };
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    user.getIdToken().then((token) => {
-      console.log(token);
-      //todo redirect to home
-    });
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
+
 function LoginPage() {
+  const history = useHistory();
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const history = useHistory();
+
+  const signIn = (email?: string, password?: string) => {
+    console.log(email, password);
+    if (!email || !password) {
+      return;
+    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const loginCardContent = () => (
     <>
       <div>Welcome To Stock Sansaar</div>

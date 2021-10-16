@@ -25,7 +25,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <div className="App">
-        <TopNav />
+        <TopNav themeChange={handleThemeChange} />
         <AuthProvider>
           <BrowserRouter>
             <Switch>

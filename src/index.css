@@ -22,3 +22,16 @@ code {
 .flex {
   display: flex;
 }
+iframe {
+  width: 100% !important;
+}
+.widget div {
+  width: 100% !important;
+}
+.widget > div {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+.widget {
+  margin: 1rem;
+}

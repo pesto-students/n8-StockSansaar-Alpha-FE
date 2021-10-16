@@ -2,20 +2,34 @@
 import { Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Screener } from "react-ts-tradingview-widgets";
-const useStyles = makeStyles({
-  pageRoot: {
-    background: "black",
-  },
-  hideButton: {
-    display: "none",
-  },
-});
+import { useParams } from "react-router";
+import {
+  AdvancedRealTimeChart,
+  FundamentalData,
+  MiniChart,
+  Screener,
+  SymbolInfo,
+  TechnicalAnalysis,
+} from "react-ts-tradingview-widgets";
+import ViewWrapper from "../components/wrappers/ViewWrapper";
+import styles from "./StockWidget.module.css";
+// const useStyles = makeStyles({
+//   hideButton: {
+//     display: "none",
+//   },
+//   root: {
+//     display: "flex",
+//   },
+//   screener: {
+//     height: "80%",
+//   },
+// });
 export default function StockWidgetPage() {
-  const classes = useStyles();
+  const { stockName }: any = useParams();
+  const symbol = stockName.toUpperCase();
+  // const classes = useStyles();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const enterFullScreen = () => {
-    setIsFullScreen(true);
     const elem = document.documentElement;
     /* tslint:disable */
     /* When the openFullscreen() function is executed, open the video in fullscreen.
@@ -29,26 +43,51 @@ export default function StockWidgetPage() {
       /* IE11 */
       elem.msRequestFullscreen();
     }
+    setIsFullScreen(true);
     /* tslint:enable */
   };
-
+  function closeFullScreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE11 */
+      document.msExitFullscreen();
+    }
+    setIsFullScreen(false);
+  }
   return (
-    <div className={classes.pageRoot}>
-      <Grid>
-        <Button
-          className={isFullScreen ? classes.hideButton : null}
-          onClick={enterFullScreen}
-        >
-          Enter FullScreen
-        </Button>
-        <Screener
-          colorTheme="dark"
-          width="100%"
-          height={300}
-          market="india"
-          defaultScreen="most_capitalized"
-        ></Screener>
+    <ViewWrapper header={"Screener"}>
+      <Button onClick={isFullScreen ? closeFullScreen : enterFullScreen}>
+        {isFullScreen ? "Exit FullScreen" : "Enter FullScreen"}
+      </Button>
+      <div class={styles.widget}>
+        <SymbolInfo symbol={`BSE:${symbol}`} colorTheme="dark" autosize />
+      </div>
+      <Grid container>
+        <Grid item xs={6}>
+          <div class={styles.widget}>
+            <MiniChart colorTheme="dark" symbol={`BSE:${symbol}`}></MiniChart>
+          </div>
+          <div class={styles.widget}>
+            <TechnicalAnalysis
+              symbol={`BSE:${symbol}`}
+              colorTheme="dark"
+            ></TechnicalAnalysis>
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+          <div class={styles.widget}>
+            <FundamentalData
+              xs={6}
+              symbol={`BSE:${symbol}`}
+              colorTheme="dark"
+            ></FundamentalData>
+          </div>
+        </Grid>
       </Grid>
-    </div>
+    </ViewWrapper>
   );
 }
