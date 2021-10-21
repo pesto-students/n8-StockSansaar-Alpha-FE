@@ -1,11 +1,9 @@
-import Box from "@material-ui/core/Box";
-import React, { useContext } from "react";
-import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import { Button, Tab, Tabs, Typography } from "@material-ui/core";
-
-import clsx from "clsx";
+import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
+import clsx from "clsx";
+import React, { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
+import ViewWrapper from "../../components/wrappers/ViewWrapper";
 
 export default function VirtualPortfolio() {
   const { auth } = useContext(AuthContext);

@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
     const isDarkMode = localStorage.getItem("darkMode") === "true";
     setDarkState(isDarkMode);
-  });
+  }, []);
 
   return (
     <AuthProvider>

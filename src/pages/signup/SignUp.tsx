@@ -69,9 +69,7 @@ function SignUpPage() {
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
         // Signed in
-        const user = userCredential.user;
         setOpenSnackbar(true);
         setTimeout(() => history.push("/"), 3000);
         // ...
@@ -94,6 +92,7 @@ function SignUpPage() {
             id="login-email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={() => formValidation.setFormValidity(email, setEmailError)}
             helperText={emailError ? "Enter Correct Email" : null}
             error={emailError}
           />
@@ -146,7 +145,12 @@ function SignUpPage() {
           </div>
         </Grid>
         <Grid item xs={6}>
-          <img src={image} height="240" className={classes.signupImage} />
+          <img
+            src={image}
+            height="240"
+            alt="Stocks Page"
+            className={classes.signupImage}
+          />
           <Typography variant="body2">We will Trade Good Stocks</Typography>
         </Grid>
       </Grid>
