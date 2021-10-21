@@ -1,29 +1,16 @@
 // @ts-nocheck
-import { Button, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Button, Grid, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import {
-  AdvancedRealTimeChart,
   FundamentalData,
   MiniChart,
-  Screener,
   SymbolInfo,
   TechnicalAnalysis,
 } from "react-ts-tradingview-widgets";
 import ViewWrapper from "../components/wrappers/ViewWrapper";
 import styles from "./StockWidget.module.css";
-// const useStyles = makeStyles({
-//   hideButton: {
-//     display: "none",
-//   },
-//   root: {
-//     display: "flex",
-//   },
-//   screener: {
-//     height: "80%",
-//   },
-// });
+
 export default function StockWidgetPage() {
   const { stockName }: any = useParams();
   const symbol = stockName.toUpperCase();
@@ -59,22 +46,29 @@ export default function StockWidgetPage() {
     setIsFullScreen(false);
   }
   return (
-    <ViewWrapper header={"Screener"}>
+    <ViewWrapper header={<Typography variant="h3">{symbol}</Typography>}>
       <Button onClick={isFullScreen ? closeFullScreen : enterFullScreen}>
         {isFullScreen ? "Exit FullScreen" : "Enter FullScreen"}
       </Button>
       <div class={styles.widget}>
-        <SymbolInfo symbol={`BSE:${symbol}`} colorTheme="dark" autosize />
+        <SymbolInfo
+          symbol={`BSE:${symbol}`}
+          colorTheme={theme.palette.type}
+          autosize
+        />
       </div>
       <Grid container>
         <Grid item xs={6}>
           <div class={styles.widget}>
-            <MiniChart colorTheme="dark" symbol={`BSE:${symbol}`}></MiniChart>
+            <MiniChart
+              colorTheme={theme.palette.type}
+              symbol={`BSE:${symbol}`}
+            ></MiniChart>
           </div>
           <div class={styles.widget}>
             <TechnicalAnalysis
               symbol={`BSE:${symbol}`}
-              colorTheme="dark"
+              colorTheme={theme.palette.type}
             ></TechnicalAnalysis>
           </div>
         </Grid>
@@ -83,7 +77,7 @@ export default function StockWidgetPage() {
             <FundamentalData
               xs={6}
               symbol={`BSE:${symbol}`}
-              colorTheme="dark"
+              colorTheme={theme.palette.type}
             ></FundamentalData>
           </div>
         </Grid>

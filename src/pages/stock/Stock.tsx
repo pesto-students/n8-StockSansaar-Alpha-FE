@@ -1,26 +1,23 @@
+import { Button, Popover, useTheme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
+import ArticleIcon from "@material-ui/icons/Description";
+import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
-import stocksKeyStatsReader from "../../readers/yahooStockKeyStats";
-import stockSummaryReader from "../../readers/yahooStockSummary";
+import { useParams } from "react-router-dom";
 import {
   AdvancedRealTimeChart,
-  FundamentalData,
+  CompanyProfile,
   TechnicalAnalysis,
 } from "react-ts-tradingview-widgets";
+import StockStatistic from "../../components/molecules/StockStatistic";
+import ViewWrapper from "../../components/wrappers/ViewWrapper";
 import statisticsData from "../../mockdata/keyStatistics";
 import summaryData from "../../mockdata/stockSummary";
-import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import { makeStyles, ThemeProvider } from "@material-ui/styles";
-import StockStatistic from "../../components/molecules/StockStatistic";
-import { Button, Popover, useTheme } from "@material-ui/core";
-import ArticleIcon from "@material-ui/icons/Description";
-import { CompanyProfile } from "react-ts-tradingview-widgets";
-
-import _ from "lodash";
+import stockSummaryReader from "../../readers/yahooStockSummary";
+import stockStatsReader from "../../readers/yahooStockKeyStats";
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
@@ -37,6 +34,11 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
   },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
 
 function TabPanel(props: TabPanelProps) {
@@ -50,7 +52,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3, height: "60vh" }}>
+        <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -66,9 +68,7 @@ function a11yProps(index: number) {
 }
 
 export default function StockPage() {
-  const {
-    palette: { type: themeType },
-  } = useTheme();
+  const theme = useTheme();
 
   const classes = useStyles();
   const { stockName }: any = useParams();
@@ -102,46 +102,30 @@ export default function StockPage() {
     setValue(index);
   };
 
-  // const keyPointsView = () => (
-  //   <div className={classes.keyPoints}>
-  //     <Typography variant="h3">Key Points</Typography>
-  //     <div>
-  //       <StockStatistic
-  //         keys={"52 Week Change"}
-  //         value={stocksKeyStatsReader.technicals._52WeekChange(keyStatistics)}
-  //       />
-  //     </div>
-  //     {/* <div>
-  //       Insider Holdings:
-  //       {stocksKeyStatsReader.heldPercentInsiders(keyStatistics)}
-  //     </div>
-  //     <div>
-  //       Institutional Holdings:
-  //       {stocksKeyStatsReader.heldPercentInstitutions(keyStatistics)}
-  //     </div>
-  //     <div>
-  //       Peg Ratio:
-  //       {stocksKeyStatsReader.pegRatio(keyStatistics)}
-  //     </div> */}
-  //     <button
-  //       data-kite="ht2nfgbrmgvtzxnw"
-  //       data-exchange="NSE"
-  //       data-tradingsymbol="SBIN"
-  //       data-transaction_type="BUY"
-  //       data-quantity="1"
-  //       data-order_type="MARKET"
-  //     >
-  //       Buy SBI stock
-  //     </button>
-  //   </div>
-  // );
-
   return (
     <ViewWrapper
       header={
-        <div className="flex">
-          <Typography variant="h3">{symbol}</Typography>
-          <ArticleIcon onClick={handleClick} />
+        <div className={classes.header}>
+          <div className="flex">
+            <Typography variant="h3">{symbol}</Typography>
+            <ArticleIcon onClick={handleClick} />
+          </div>
+          <div>
+            <button
+              data-kite="ht2nfgbrmgvtzxnw"
+              data-exchange="NSE"
+              data-tradingsymbol="SBIN"
+              data-transaction_type="BUY"
+              data-quantity="1"
+              data-order_type="MARKET"
+            >
+              Buy SBI stock
+            </button>
+
+            <Button variant="contained" color="primary">
+              Magic View
+            </Button>
+          </div>
         </div>
       }
     >
@@ -158,7 +142,11 @@ export default function StockPage() {
           horizontal: "center",
         }}
       >
-        <CompanyProfile colorTheme="dark" height={400}></CompanyProfile>
+        <CompanyProfile
+          colorTheme={theme.palette.type}
+          height={400}
+          symbol={`BSE:${symbol}`}
+        ></CompanyProfile>
       </Popover>
       <Box display="flex">
         <Box
@@ -167,33 +155,62 @@ export default function StockPage() {
           }}
         >
           <div className="widget">
-            <AdvancedRealTimeChart theme={themeType} symbol={`BSE:${symbol}`} />
+            <AdvancedRealTimeChart
+              theme={theme.palette.type}
+              symbol={`BSE:${symbol}`}
+            />
           </div>
         </Box>
-        <Box sx={{ bgcolor: "background.paper", width: "40%", height: "50vh" }}>
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            width: "40%",
+            // overflow: "scroll",
+            margin: "1rem",
+            borderRadius: "2rem",
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleChange}
             indicatorColor="secondary"
             textColor="inherit"
             aria-label="stock data options tab"
+            variant="scrollable"
+            scrollButtons="auto"
           >
             <Tab label="Price & Vol." {...a11yProps(0)} />
             <Tab label="Fundamentals" {...a11yProps(1)} />
             <Tab label="Technical" {...a11yProps(2)} />
+            <Tab label="Others" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={value} index={0}>
-            {Object.entries(stockSummaryReader.technicals).map(([k, v]) => {
+            {Object.entries(stockSummaryReader.price).map(([k, v]) => {
               const value = v(stockSummary);
               // @ts-ignore
               return <StockStatistic keys={k} value={value} />;
             })}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            {/* {keyPointsView()} */}
+            {Object.entries(stockStatsReader.fundamentals).map(([k, v]) => {
+              const value = v(keyStatistics);
+              // @ts-ignore
+              return <StockStatistic keys={k} value={value} />;
+            })}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <TechnicalAnalysis autosize symbol={`BSE:${symbol}`} />
+            {Object.entries(stockSummaryReader.technicals).map(([k, v]) => {
+              const value = v(stockSummary);
+              // @ts-ignore
+              return <StockStatistic keys={k} value={value} />;
+            })}
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            {Object.entries(stockStatsReader.others).map(([k, v]) => {
+              const value = v(keyStatistics);
+              // @ts-ignore
+              return <StockStatistic keys={k} value={value} />;
+            })}
           </TabPanel>
         </Box>
       </Box>

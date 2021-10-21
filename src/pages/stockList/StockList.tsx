@@ -1,63 +1,48 @@
-import Box from "@material-ui/core/Box";
 import React from "react";
-import nifty50Data from "../../mockdata/indexData";
 import { useHistory } from "react-router-dom";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
 import { Tab, Tabs, Typography } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
+import { useParams } from "react-router";
 
 import clsx from "clsx";
+import axios from "axios";
 const columns = [
-  { field: "symbol", headerName: "Symbol", width: 150 },
-  { field: "ltP", headerName: "Price", width: 150 },
-  { field: "per", headerName: "% Change", width: 150 },
-  { field: "low", headerName: "Day Low", width: 150 },
-  { field: "wkhi", headerName: "Week High", width: 150 },
-  { field: "wklo", headerName: "Week Low", width: 150 },
-  { field: "yPC", headerName: "1yr Chg", width: 150 },
-  { field: "mPC", headerName: "1mo Chg", width: 150 },
+  { field: "symbol", headerName: "Symbol", width: 200 },
+  { field: "companyName", headerName: "Company Name", width: 400 },
+  { field: "industry", headerName: "Industry", width: 300 },
 ];
 export default function StockList() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: any, newValue: any) => {
-    setValue(newValue);
-  };
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
+  const [stockListData, setStockListData] = React.useState<Array<any>>([]);
+  const { strategyName }: any = useParams();
+  React.useEffect(() => {
+    if (!stockListData.length) {
+      axios
+        .get(`http://localhost:7000/strategy/get-stocks/${strategyName}`)
+        .then((res) => {
+          const stockList = res.data || [];
+          console.log(stockList);
+          setStockListData(stockList);
+        });
+    }
+  });
 
   const history = useHistory();
   return (
     <ViewWrapper
       header={
         <div className={clsx("flex")}>
-          <Typography variant="h3">Strategies</Typography>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
-            </Tabs>
-          </Box>
+          <Typography variant="h3">{} Strategies</Typography>
         </div>
       }
     >
       <DataGrid
-        rows={nifty50Data.data}
+        rows={stockListData}
         getRowId={(row: any) => row.symbol}
-        onRowClick={(row: any) => history.push(row.row.symbol)}
+        onRowClick={(row: any) => history.push(`/stock/${row.row.symbol}`)}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         disableSelectionOnClick
       />
     </ViewWrapper>

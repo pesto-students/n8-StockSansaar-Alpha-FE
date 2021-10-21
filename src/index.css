@@ -22,6 +22,10 @@ code {
 .flex {
   display: flex;
 }
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
 iframe {
   width: 100% !important;
 }
@@ -34,4 +38,16 @@ iframe {
 }
 .widget {
   margin: 1rem;
+}
+.MuiButton-root {
+  text-transform: none !important;
+}
+.marginY > * {
+  margin: 0.5rem 0 !important;
+}
+.marginY {
+  margin-top: 1rem;
+}
+.MuiTextField-root {
+  width: 15rem;
 }

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { onAuthStateChanged, getAuth } from "@firebase/auth";
+import { getAuth } from "@firebase/auth";
 import { initializeApp } from "firebase/app";
+import React, { useEffect, useState } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }: any) => {
   return (
     <AuthContext.Provider
       value={{
-        auth, // eslint-disable-line
+        auth,
       }}
     >
       {children}

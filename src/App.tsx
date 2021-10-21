@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import routes from "./routes";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TopNav from "./components/organisms/Header";
@@ -18,16 +18,31 @@ function App() {
     },
   });
   const handleThemeChange = () => {
-    setDarkState(!darkState);
+    if (darkState) {
+      localStorage.setItem("darkMode", "false");
+      setDarkState(false);
+    } else {
+      localStorage.setItem("darkMode", "true");
+      setDarkState(true);
+    }
   };
 
+  useEffect(() => {
+    const isDarkMode = localStorage.getItem("darkMode") === "true";
+    setDarkState(isDarkMode);
+  });
+
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <div className="App">
-        <TopNav themeChange={handleThemeChange} />
-        <AuthProvider>
+    <AuthProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <div className="App">
           <BrowserRouter>
+            <TopNav
+              isDarkMode={darkState ? true : false}
+              themeChange={handleThemeChange}
+            />
+
             <Switch>
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/signup" component={SignUpPage} />
@@ -36,9 +51,9 @@ function App() {
               ))}
             </Switch>
           </BrowserRouter>
-        </AuthProvider>
-      </div>
-    </ThemeProvider>
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
