@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Paper, Tooltip, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import * as React from "react";
 
 const useStyles = makeStyles({
   paperRoot: {

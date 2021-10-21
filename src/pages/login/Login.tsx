@@ -1,11 +1,6 @@
 import { Snackbar, TextField, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Alert from "../../components/molecules/Alert";
@@ -14,31 +9,6 @@ import formValidation from "../../helpers/formValidation";
 
 const WELCOME_MSG = "Welcome Back";
 const auth = getAuth();
-const provider = new GoogleAuthProvider();
-
-const signInWithGoogle = () => {
-  console.log("hello there");
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      console.log(result, token, user);
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
-};
 
 function LoginPage() {
   const history = useHistory();

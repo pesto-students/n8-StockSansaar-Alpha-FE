@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import {
   AdvancedRealTimeChart,
   CompanyProfile,
-  TechnicalAnalysis,
 } from "react-ts-tradingview-widgets";
 import StockStatistic from "../../components/molecules/StockStatistic";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
@@ -96,10 +95,6 @@ export default function StockPage() {
   });
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
-  };
-
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
   };
 
   return (

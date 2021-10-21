@@ -1,25 +1,8 @@
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/styles";
 import axios from "axios";
 import React from "react";
 import { useHistory } from "react-router";
 import ViewWrapper from "../components/wrappers/ViewWrapper";
-
-const useStyles = makeStyles({
-  keyPoints: {
-    padding: "2rem",
-    border: "1px solid black",
-    borderRadius: "2rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});
 
 export default function Strategies() {
   const [strategies, setStrategies] = React.useState<Array<any>>();

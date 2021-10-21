@@ -1,12 +1,12 @@
+import { Typography } from "@material-ui/core";
+import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
+import clsx from "clsx";
 import React from "react";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import { Tab, Tabs, Typography } from "@material-ui/core";
-import { DataGrid } from "@mui/x-data-grid";
-import { useParams } from "react-router";
 
-import clsx from "clsx";
-import axios from "axios";
 const columns = [
   { field: "symbol", headerName: "Symbol", width: 200 },
   { field: "companyName", headerName: "Company Name", width: 400 },
