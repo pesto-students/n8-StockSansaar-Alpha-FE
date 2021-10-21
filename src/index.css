@@ -1,13 +1,53 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.App {
+  height: 100%;
+}
+.flex {
+  display: flex;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+iframe {
+  width: 100% !important;
+}
+.widget div {
+  width: 100% !important;
+}
+.widget > div {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+.widget {
+  margin: 1rem;
+}
+.MuiButton-root {
+  text-transform: none !important;
+}
+.marginY > * {
+  margin: 0.5rem 0 !important;
+}
+.marginY {
+  margin-top: 1rem;
+}
+.MuiTextField-root {
+  width: 15rem;
 }
