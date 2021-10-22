@@ -50,7 +50,6 @@ function SignUpPage() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleInfoClose = () => {
-    console.log("vella");
     setAnchorEl(null);
   };
 
@@ -63,7 +62,6 @@ function SignUpPage() {
   };
 
   const signUp = (email?: string, password?: string) => {
-    console.log(email, password);
     if (!email || !password) {
       return;
     }

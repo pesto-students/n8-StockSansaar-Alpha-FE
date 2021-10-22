@@ -25,14 +25,11 @@ const camelCaseToSentence = (text: string) => {
 
 function StockStatistic({ keys, value = "N/A" }: StockStatisticProps) {
   const classes = useStyles();
-  console.log(keys, value);
   return (
     <Paper elevation={0} className={classes.paperRoot}>
-      <div>
-        <Typography variant="body1" className={classes.key}>
-          {camelCaseToSentence(keys)}
-        </Typography>
-      </div>
+      <Typography variant="body1" className={classes.key}>
+        {camelCaseToSentence(keys)}
+      </Typography>
       <Typography variant="body2">{value}</Typography>
     </Paper>
   );

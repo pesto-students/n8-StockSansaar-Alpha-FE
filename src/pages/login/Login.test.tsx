@@ -5,7 +5,6 @@ import Login from "./Login";
 test("Checks for invalid email helper text is present on blur", () => {
   render(<Login />);
   const inputElement = screen.getByLabelText(/email/i);
-  console.log(inputElement);
   inputElement.focus();
   inputElement.value = "xyxz";
   inputElement.blur();
@@ -16,7 +15,6 @@ test("Checks for invalid email helper text is present on blur", () => {
 test("Checks for invalid password pattern helper text is present on blur", () => {
   render(<Login />);
   const inputElement = screen.getByLabelText(/password/i);
-  console.log(inputElement);
   inputElement.focus();
   inputElement.value = "xyxz";
   inputElement.blur();
