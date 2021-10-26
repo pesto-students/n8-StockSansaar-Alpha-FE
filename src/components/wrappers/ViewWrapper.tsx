@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React from "react";
 export type ViewWrapperProps = {
-  header: any;
+  header?: any;
   children: any;
 };
 const useStyles = makeStyles({
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     marginTop: "2rem",
   },
   header: {
-    margin: "1.5rem",
+    marginTop: "2rem",
   },
 });
 

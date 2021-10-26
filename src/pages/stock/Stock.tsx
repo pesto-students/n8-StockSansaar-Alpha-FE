@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import ArticleIcon from "@material-ui/icons/Description";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
   AdvancedRealTimeChart,
   CompanyProfile,
@@ -25,25 +25,17 @@ interface TabPanelProps {
 }
 
 const useStyles = makeStyles({
-  keyPoints: {
-    padding: "2rem",
-    border: "1px solid black",
-    borderRadius: "2rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
   header: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    margin: "1rem",
   },
   grid: {
     display: "grid",
+    height: "50vh",
+    overflowY: "scroll",
     gridTemplateColumns: "repeat(auto-fill, 15rem)",
-    gridGap: "1rem",
-    height: "40vh",
-    overflow: "scroll",
   },
 });
 
@@ -75,7 +67,7 @@ function a11yProps(index: number) {
 
 export default function StockPage() {
   const theme = useTheme();
-
+  const history = useHistory();
   const classes = useStyles();
   const { stockName }: any = useParams();
   const keyStatistics = statisticsData.result[0].defaultKeyStatistics;
@@ -113,8 +105,12 @@ export default function StockPage() {
             <ArticleIcon onClick={handleClick} />
           </div>
           <div>
-            <Button variant="contained" color="primary">
-              Magic View
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push(`${symbol}/detail`)}
+            >
+              Detailed Analytics
             </Button>
           </div>
         </div>
@@ -142,20 +138,22 @@ export default function StockPage() {
       <Box display="flex">
         <Box
           sx={{
-            width: "60%",
+            width: "55%",
           }}
         >
           <div className="widget">
             <AdvancedRealTimeChart
               theme={theme.palette.type}
               symbol={`BSE:${symbol}`}
+              height={500}
+              width={500}
             />
           </div>
         </Box>
         <Box
           sx={{
             bgcolor: "background.paper",
-            width: "40%",
+            width: "45%",
             margin: "1rem",
             borderRadius: "2rem",
           }}
