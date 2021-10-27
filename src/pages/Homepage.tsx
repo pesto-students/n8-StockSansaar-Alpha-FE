@@ -51,8 +51,13 @@ export default function HomePage() {
   const history = useHistory();
   return (
     <ViewWrapper>
-      {homepageData.map((homepageItem) => (
-        <Grid container spacing={10} className={classes.itemComtainer}>
+      {homepageData.map((homepageItem, index) => (
+        <Grid
+          container
+          direction={index % 2 ? "row-reverse" : "row"}
+          spacing={10}
+          className={classes.itemComtainer}
+        >
           <Grid item xs={5}>
             {
               <img

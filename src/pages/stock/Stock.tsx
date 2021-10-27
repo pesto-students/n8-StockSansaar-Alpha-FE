@@ -65,6 +65,17 @@ function a11yProps(index: number) {
   };
 }
 
+const ChartWidget = React.memo(({ theme, symbol }: any) => (
+  <div className="widget">
+    <AdvancedRealTimeChart
+      theme={theme.palette.type}
+      symbol={`BSE:${symbol}`}
+      height={500}
+      width={500}
+    />
+  </div>
+));
+
 export default function StockPage() {
   const theme = useTheme();
   const history = useHistory();
@@ -141,14 +152,7 @@ export default function StockPage() {
             width: "55%",
           }}
         >
-          <div className="widget">
-            <AdvancedRealTimeChart
-              theme={theme.palette.type}
-              symbol={`BSE:${symbol}`}
-              height={500}
-              width={500}
-            />
-          </div>
+          <ChartWidget theme={theme} symbol={symbol} />
         </Box>
         <Box
           sx={{

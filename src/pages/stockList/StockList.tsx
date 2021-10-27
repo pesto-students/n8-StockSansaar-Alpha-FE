@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import clsx from "clsx";
@@ -12,7 +12,19 @@ const columns = [
   { field: "companyName", headerName: "Company Name", flex: 1 },
   { field: "industry", headerName: "Industry", flex: 0.8 },
 ];
+const useStyles = makeStyles({
+  padding1: {
+    paddingLeft: "1rem!important",
+  },
+  gutterBottom: {
+    marginBottom: "2rem",
+  },
+  paddingBottom: {
+    paddingBottom: "2rem",
+  },
+});
 export default function StockList() {
+  const classes = useStyles();
   const {
     state: { strategyData: strategy },
   }: any = useLocation();
@@ -38,20 +50,27 @@ export default function StockList() {
         </div>
       }
     >
-      <Typography variant="body2" gutterBottom>
-        {strategy.description}
-      </Typography>
-      <DataGrid
-        rows={stockListData}
-        getRowId={(row: any) => row.symbol}
-        onRowClick={(row: any) =>
-          history.push(`${strategyName}/stock/${row.row.symbol}`)
-        }
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        disableSelectionOnClick
-      />
+      <div className={classes.paddingBottom}>
+        <Typography variant="body2" className={classes.gutterBottom}>
+          {strategy.description}
+        </Typography>
+        <DataGrid
+          className={classes.gutterBottom}
+          autoHeight
+          rows={stockListData}
+          getRowId={(row: any) => row.symbol}
+          onRowClick={(row: any) =>
+            history.push(`${strategyName}/stock/${row.row.symbol}`)
+          }
+          classes={{
+            cell: classes.padding1,
+          }}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+          disableSelectionOnClick
+        />
+      </div>
     </ViewWrapper>
   );
 }
