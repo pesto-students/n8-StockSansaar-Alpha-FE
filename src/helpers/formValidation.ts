@@ -5,6 +5,7 @@ export const checkPasswordValidity = (password: string, setError: any) => {
 };
 export const setFormValidity = (event: any, setError: any) => {
   const form = event?.currentTarget?.form;
+  console.log(!form?.checkValidity());
   setError(!form?.checkValidity());
 };
 

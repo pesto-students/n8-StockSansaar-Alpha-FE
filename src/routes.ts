@@ -7,13 +7,13 @@ import VirtualPortfolio from "./pages/virtualPortfolio/VirtualPortfolio";
 const routes = [
   {
     key: 0,
-    path: "/",
+    path: "/screener",
     component: StockScreener,
     exact: true,
   },
   {
     key: 1,
-    path: "/stock/:stockName",
+    path: "/strategies/:strategyName/stock/:stockName",
     component: StockPage,
     exact: true,
   },
@@ -25,13 +25,13 @@ const routes = [
   },
   {
     key: 3,
-    path: "/stock/:stockName/fullScreenView",
+    path: "/strategies/:strategyName/stock/:stockName/detail",
     component: StockWidgetPage,
     exact: true,
   },
   {
     key: 4,
-    path: "/virtualPortfolio",
+    path: "/virtual-portfolio",
     component: VirtualPortfolio,
     exact: true,
   },
