@@ -1,4 +1,5 @@
 import { getAuth } from "@firebase/auth";
+import axios from "axios";
 import { initializeApp } from "firebase/app";
 import React, { useEffect, useState } from "react";
 
@@ -13,7 +14,12 @@ const app = initializeApp({
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 });
 const auth = getAuth();
+axios.interceptors.request.use(async (config) => {
+  config!.headers!.token = (await auth.currentUser?.getIdToken()) || "";
+  return config;
+});
 export const AuthContext = React.createContext({ auth });
+
 export const AuthProvider = ({ children }: any) => {
   const [pending, setPending] = useState(true);
 

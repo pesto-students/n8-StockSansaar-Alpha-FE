@@ -51,3 +51,14 @@ iframe {
 .MuiTextField-root {
   width: 15rem;
 }
+#page-not-found {
+  display: flex;
+  align-self: center;
+  /* height: 50vh; */
+  width: 50vh;
+  margin: auto;
+  height: 90%;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

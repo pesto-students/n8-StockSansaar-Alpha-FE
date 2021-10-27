@@ -13,8 +13,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { getAuth, signOut } from "firebase/auth";
-import React from "react";
-import { useHistory } from "react-router";
+import React, { useEffect } from "react";
+import { useHistory, useLocation } from "react-router";
 import Alert from "../molecules/Alert";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,25 +33,34 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 function TopNav({ themeChange, isDarkMode }: any) {
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [logoutError, setLogoutError] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("");
 
-  const handleChange = (event: any, newValue: any) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event: any, newValue: any) => {
+  //   setValue(newValue.split("/")[1]);
+  // };
 
   const logoutHandler = () => {
     signOut(auth)
       .then((res) => {
         setOpenSnackbar(true);
+        setTimeout(() => {
+          history.push("/", 2000);
+        });
       })
       .catch((error) => {
         setLogoutError(error.message);
       });
   };
+
+  useEffect(() => {
+    console.log(location.pathname.split("/")[1]);
+    setValue(location.pathname.split("/")[1]);
+  }, [location]);
 
   function a11yProps(index: any) {
     return {
@@ -81,7 +90,7 @@ function TopNav({ themeChange, isDarkMode }: any) {
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
         <Grid container spacing={1} className={classes.gridRoot}>
-          <Grid item xs={2}>
+          <Grid item xs={2} onClick={() => history.push("/")}>
             <Typography variant="h6" component="div">
               StockSansaar
             </Typography>
@@ -96,28 +105,58 @@ function TopNav({ themeChange, isDarkMode }: any) {
             />
           </Grid>
           {!loggedIn ? (
-            <div>Hello</div>
+            <>
+              <Grid item xs={5}></Grid>
+              <Grid item xs={2}>
+                <Button color="inherit" onClick={() => history.push("/login")}>
+                  Login
+                </Button>
+                <Button color="inherit" onClick={() => history.push("/signup")}>
+                  Signup
+                </Button>
+              </Grid>
+            </>
           ) : (
             <>
               <Grid item xs={6}>
                 <Tabs
                   value={value}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   indicatorColor="primary"
-                  // textColor="primary"
                   variant="scrollable"
                   scrollButtons="auto"
                   aria-label="top bar navigation tabs"
                 >
-                  <Tab label="Portfolio" {...a11yProps(0)} />
+                  <Tab
+                    label="Home"
+                    value=""
+                    {...a11yProps(0)}
+                    onClick={() => history.push("/")}
+                  />
                   <Tab
                     label="Strategies"
                     {...a11yProps(1)}
+                    value="strategies"
                     onClick={() => history.push("/strategies")}
                   />
-                  <Tab label="Explore" {...a11yProps(2)} />
-                  <Tab label="Virtual Portfolio" {...a11yProps(3)} />
-                  <Tab label="Screener" {...a11yProps(4)} />
+                  <Tab
+                    label="News"
+                    value="news"
+                    onClick={() => history.push("/news")}
+                    {...a11yProps(2)}
+                  />
+                  <Tab
+                    label="Virtual Portfolio"
+                    value="virtual-portfolio"
+                    {...a11yProps(3)}
+                    onClick={() => history.push("/virtual-portfolio")}
+                  />
+                  <Tab
+                    label="Screener"
+                    value="screener"
+                    onClick={() => history.push("/screener")}
+                    {...a11yProps(4)}
+                  />
                 </Tabs>
               </Grid>
               <Grid item xs={1}>

@@ -8,6 +8,8 @@ import PrivateRoute from "./ProtectedRoute";
 import SignUpPage from "./pages/signup/SignUp";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
+import HomePage from "./pages/Homepage";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   const [darkState, setDarkState] = useState(true);
@@ -44,11 +46,13 @@ function App() {
             />
 
             <Switch>
+              <Route exact path="/" component={HomePage} />
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/signup" component={SignUpPage} />
               {routes.map((route: any) => (
                 <PrivateRoute {...route}></PrivateRoute>
               ))}
+              <Route component={PageNotFound} />
             </Switch>
           </BrowserRouter>
         </div>
