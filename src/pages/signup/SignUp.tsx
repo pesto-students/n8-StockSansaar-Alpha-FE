@@ -17,7 +17,6 @@ import {
   PASSWORDS_DONT_MATCH,
 } from "../../constants/formValidation";
 import formValidation from "../../helpers/formValidation";
-import image from "../../images/signUp.jpg";
 
 const auth = getAuth();
 const useStyles = makeStyles({
@@ -50,6 +49,7 @@ function SignUpPage() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleInfoClose = () => {
+    console.log("handle info close");
     setAnchorEl(null);
   };
 
@@ -90,7 +90,7 @@ function SignUpPage() {
             id="login-email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
-            onBlur={() => formValidation.setFormValidity(email, setEmailError)}
+            onBlur={(e) => formValidation.setFormValidity(e, setEmailError)}
             helperText={emailError ? "Enter Correct Email" : null}
             error={emailError}
           />
@@ -114,9 +114,11 @@ function SignUpPage() {
             label="Confirm Password"
             onChange={(e: any) => setConfirmPassword(e.target.value)}
             helperText={
-              password !== confirmPassword ? PASSWORDS_DONT_MATCH : null
+              password !== confirmPassword && confirmPassword
+                ? PASSWORDS_DONT_MATCH
+                : null
             }
-            error={password !== confirmPassword}
+            error={password !== confirmPassword && confirmPassword !== ""}
           />
           <div>
             <Button
@@ -144,7 +146,7 @@ function SignUpPage() {
         </Grid>
         <Grid item xs={6}>
           <img
-            src={image}
+            src="/images/signUp.jpg"
             height="240"
             alt="Stocks Page"
             className={classes.signupImage}
@@ -185,11 +187,11 @@ function SignUpPage() {
       >
         {errorMessage ? (
           <Alert onClose={handleClose} severity="error">
-            Signup Successful! Redirecting to Home Page!
+            {errorMessage}
           </Alert>
         ) : (
           <Alert onClose={handleClose} severity="success">
-            {errorMessage}
+            Signup Successful! Redirecting to Home Page!
           </Alert>
         )}
       </Snackbar>
