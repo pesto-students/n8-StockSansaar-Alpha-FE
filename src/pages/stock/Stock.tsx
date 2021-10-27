@@ -38,6 +38,13 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, 15rem)",
+    gridGap: "1rem",
+    height: "40vh",
+    overflow: "scroll",
+  },
 });
 
 function TabPanel(props: TabPanelProps) {
@@ -106,17 +113,6 @@ export default function StockPage() {
             <ArticleIcon onClick={handleClick} />
           </div>
           <div>
-            <button
-              data-kite="ht2nfgbrmgvtzxnw"
-              data-exchange="NSE"
-              data-tradingsymbol="SBIN"
-              data-transaction_type="BUY"
-              data-quantity="1"
-              data-order_type="MARKET"
-            >
-              Buy SBI stock
-            </button>
-
             <Button variant="contained" color="primary">
               Magic View
             </Button>
@@ -160,7 +156,6 @@ export default function StockPage() {
           sx={{
             bgcolor: "background.paper",
             width: "40%",
-            // overflow: "scroll",
             margin: "1rem",
             borderRadius: "2rem",
           }}
@@ -180,32 +175,40 @@ export default function StockPage() {
             <Tab label="Others" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={value} index={0}>
-            {Object.entries(stockSummaryReader.price).map(([k, v]) => {
-              const value = v(stockSummary);
-              // @ts-ignore
-              return <StockStatistic keys={k} value={value} />;
-            })}
+            <div className={classes.grid}>
+              {Object.entries(stockSummaryReader.price).map(([k, v]) => {
+                const value = v(stockSummary);
+                // @ts-ignore
+                return <StockStatistic keys={k} value={value} />;
+              })}
+            </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            {Object.entries(stockStatsReader.fundamentals).map(([k, v]) => {
-              const value = v(keyStatistics);
-              // @ts-ignore
-              return <StockStatistic keys={k} value={value} />;
-            })}
+            <div className={classes.grid}>
+              {Object.entries(stockStatsReader.fundamentals).map(([k, v]) => {
+                const value = v(keyStatistics);
+                // @ts-ignore
+                return <StockStatistic keys={k} value={value} />;
+              })}
+            </div>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {Object.entries(stockSummaryReader.technicals).map(([k, v]) => {
-              const value = v(stockSummary);
-              // @ts-ignore
-              return <StockStatistic keys={k} value={value} />;
-            })}
+            <div className={classes.grid}>
+              {Object.entries(stockSummaryReader.technicals).map(([k, v]) => {
+                const value = v(stockSummary);
+                // @ts-ignore
+                return <StockStatistic keys={k} value={value} />;
+              })}
+            </div>
           </TabPanel>
           <TabPanel value={value} index={3}>
-            {Object.entries(stockStatsReader.others).map(([k, v]) => {
-              const value = v(keyStatistics);
-              // @ts-ignore
-              return <StockStatistic keys={k} value={value} />;
-            })}
+            <div className={classes.grid}>
+              {Object.entries(stockStatsReader.others).map(([k, v]) => {
+                const value = v(keyStatistics);
+                // @ts-ignore
+                return <StockStatistic keys={k} value={value} />;
+              })}
+            </div>
           </TabPanel>
         </Box>
       </Box>

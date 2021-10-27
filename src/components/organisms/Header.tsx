@@ -2,6 +2,7 @@ import {
   AppBar,
   Button,
   FormControlLabel,
+  Grid,
   makeStyles,
   Snackbar,
   Switch,
@@ -11,31 +12,22 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import { getAuth, signOut } from "firebase/auth";
 import React from "react";
 import { useHistory } from "react-router";
 import Alert from "../molecules/Alert";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  navItems: {
-    // backgroundColor: theme.palette.background.paper,
-    width: "50%",
-    // color: "white",
-  },
-  navbar: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
   themeSwitch: {
     marginLeft: "1rem",
   },
-  topbar: {
-    padding: "0 9rem",
-    justifyContent: "space-between",
-    display: "flex",
+  toolbar: {
+    alignSelf: "center",
+    width: "90vw",
+  },
+  gridRoot: {
     alignItems: "center",
-    width: "100%",
+    justifyContent: "center",
   },
 }));
 
@@ -86,55 +78,57 @@ function TopNav({ themeChange, isDarkMode }: any) {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <div className={classes.topbar}>
+    <AppBar position="static">
+      <Toolbar className={classes.toolbar}>
+        <Grid container spacing={1} className={classes.gridRoot}>
+          <Grid item xs={2}>
             <Typography variant="h6" component="div">
               StockSansaar
             </Typography>
-            <div className={classes.navbar}>
-              <FormControlLabel
-                control={
-                  <Switch defaultChecked={isDarkMode} onChange={themeChange} />
-                }
-                label="Dark Mode"
-                className={classes.themeSwitch}
-              />
-              {!loggedIn ? (
-                <div className={classes.navItems}>Hello</div>
-              ) : (
-                <>
-                  <div className={classes.navItems}>
-                    <Tabs
-                      value={value}
-                      onChange={handleChange}
-                      indicatorColor="primary"
-                      // textColor="primary"
-                      variant="scrollable"
-                      scrollButtons="auto"
-                      aria-label="top bar navigation tabs"
-                    >
-                      <Tab label="Portfolio" {...a11yProps(0)} />
-                      <Tab
-                        label="Strategies"
-                        {...a11yProps(1)}
-                        onClick={() => history.push("/strategies")}
-                      />
-                      <Tab label="Explore" {...a11yProps(2)} />
-                      <Tab label="Virtual Portfolio" {...a11yProps(3)} />
-                      <Tab label="Screener" {...a11yProps(4)} />
-                    </Tabs>
-                  </div>
-                  <Button color="inherit" onClick={logoutHandler}>
-                    Logout
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </Toolbar>
-      </AppBar>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControlLabel
+              control={
+                <Switch defaultChecked={isDarkMode} onChange={themeChange} />
+              }
+              label="Dark Mode"
+              className={classes.themeSwitch}
+            />
+          </Grid>
+          {!loggedIn ? (
+            <div>Hello</div>
+          ) : (
+            <>
+              <Grid item xs={6}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  indicatorColor="primary"
+                  // textColor="primary"
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  aria-label="top bar navigation tabs"
+                >
+                  <Tab label="Portfolio" {...a11yProps(0)} />
+                  <Tab
+                    label="Strategies"
+                    {...a11yProps(1)}
+                    onClick={() => history.push("/strategies")}
+                  />
+                  <Tab label="Explore" {...a11yProps(2)} />
+                  <Tab label="Virtual Portfolio" {...a11yProps(3)} />
+                  <Tab label="Screener" {...a11yProps(4)} />
+                </Tabs>
+              </Grid>
+              <Grid item xs={1}>
+                <Button color="inherit" onClick={logoutHandler}>
+                  Logout
+                </Button>
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </Toolbar>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
@@ -147,7 +141,7 @@ function TopNav({ themeChange, isDarkMode }: any) {
           {logoutError === "" ? "You are now Logged Out!" : logoutError}
         </Alert>
       </Snackbar>
-    </Box>
+    </AppBar>
   );
 }
 

@@ -21,7 +21,6 @@ export default function StockList() {
         .get(`http://localhost:7000/strategy/get-stocks/${strategyName}`)
         .then((res) => {
           const stockList = res.data || [];
-          console.log(stockList);
           setStockListData(stockList);
         });
     }

@@ -26,7 +26,6 @@ function LoginPage() {
   };
 
   const signIn = (email?: string, password?: string) => {
-    console.log(email, password);
     if (!email || !password) {
       return;
     }
