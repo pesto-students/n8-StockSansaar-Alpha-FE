@@ -1,16 +1,14 @@
-import { PASSWORD_PATTERN } from "../constants/formValidation";
+import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../constants/formValidation";
 
-export const checkPasswordValidity = (password: string, setError: any) => {
+export const checkPasswordValidity = (password: String, setError: any) => {
   setError(!password.match(PASSWORD_PATTERN));
 };
-export const setFormValidity = (event: any, setError: any) => {
-  const form = event?.currentTarget?.form;
-  console.log(!form?.checkValidity());
-  setError(!form?.checkValidity());
+export const checkEmailValidity = (email: String, setError: any) => {
+  setError(!email.match(EMAIL_PATTERN));
 };
 
 const formValidationUtils = {
   checkPasswordValidity,
-  setFormValidity,
+  checkEmailValidity,
 };
 export default formValidationUtils;

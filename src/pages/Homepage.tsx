@@ -53,6 +53,7 @@ export default function HomePage() {
     <ViewWrapper>
       {homepageData.map((homepageItem, index) => (
         <Grid
+          key={index}
           container
           direction={index % 2 ? "row-reverse" : "row"}
           spacing={10}

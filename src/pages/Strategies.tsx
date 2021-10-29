@@ -39,8 +39,8 @@ export default function Strategies() {
   }
   return (
     <ViewWrapper header={<Typography variant="h3">Strategies</Typography>}>
-      {strategies.map((strategy: any) => (
-        <Card className={classes.strategyCard}>
+      {strategies.map((strategy: any, index: number) => (
+        <Card key={index} className={classes.strategyCard}>
           <Typography
             variant="h4"
             className={classes.underLine}
@@ -59,8 +59,8 @@ export default function Strategies() {
           <div>
             <Typography variant="body2">{strategy.description}</Typography>
             <ul>
-              {strategy.keyPoints.map((point: any) => (
-                <li>{point}</li>
+              {strategy.keyPoints.map((point: any, index: number) => (
+                <li key={index}>{point}</li>
               ))}
             </ul>
           </div>

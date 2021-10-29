@@ -103,6 +103,19 @@ export default function StockPage() {
     //   console.log(result);
     // });
   });
+
+  React.useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src = "https://kite.trade/publisher.js?v=3";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };

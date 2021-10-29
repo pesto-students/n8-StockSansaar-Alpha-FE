@@ -3,3 +3,4 @@ export const PASSWORD_PATTERN =
 export const PASSWORD_PATTERN_NOT_MATCH_TEXT = `Password must contain at least one upper case English letter, one lower case, 
 one digit, one special character, eight characters.`;
 export const PASSWORDS_DONT_MATCH = `Password and Confirm Password Does not match`;
+export const EMAIL_PATTERN = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
