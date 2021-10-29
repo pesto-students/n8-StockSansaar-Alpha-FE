@@ -7,8 +7,8 @@ export type ViewWrapperProps = {
 };
 const useStyles = makeStyles({
   body: {
-    height: "80%",
     marginTop: "2rem",
+    paddingBottom: "2rem",
   },
   header: {
     marginTop: "2rem",
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 function ViewWrapper({ header, children }: ViewWrapperProps) {
   const classes = useStyles();
   return (
-    <Box sx={{ width: "80vw", margin: "auto", height: "80%" }}>
+    <Box sx={{ width: "80vw", margin: "auto" }}>
       <div className={classes.header}>{header}</div>
       <div className={classes.body}>{children}</div>
     </Box>

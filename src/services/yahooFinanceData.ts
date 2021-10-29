@@ -1,10 +1,24 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 const YAHOO_FINANCE_BASE_URL = "https://yfapi.net";
+
+export enum YahooFinanceEndpointNames {
+  QUOTE_SUMMARY = "quoteSummary",
+  RECOMMENDATIONS_BY_SYMBOL = "recommendationsBySymbol",
+  MOST_WATCHLISTED = "mostWatchlisted",
+  MARKET_SUMMARY = "marketSummary",
+  TRENDING = "trending",
+  SEARCH = "search",
+  GET_MOVERS = "getMovers",
+  QUOTE = "quote",
+}
+
 const getEndpointUrl = (name: YahooFinanceEndpointNames) => {
   switch (name) {
     case YahooFinanceEndpointNames.QUOTE_SUMMARY:
       return "/v11/finance/quoteSummary";
+    case YahooFinanceEndpointNames.QUOTE:
+      return "/v6/finance/quote";
     case YahooFinanceEndpointNames.RECOMMENDATIONS_BY_SYMBOL:
       return "/v6/finance/recommendationsbysymbol";
     case YahooFinanceEndpointNames.MOST_WATCHLISTED:
@@ -13,19 +27,12 @@ const getEndpointUrl = (name: YahooFinanceEndpointNames) => {
       return "/v6/finance/quote/marketSummary";
     case YahooFinanceEndpointNames.TRENDING:
       return "/v1/finance/trending/IN";
+    case YahooFinanceEndpointNames.SEARCH:
+      return "/v6/finance/autocomplete";
     default:
       return "";
   }
 };
-
-export enum YahooFinanceEndpointNames {
-  QUOTE_SUMMARY = "quoteSummary",
-  RECOMMENDATIONS_BY_SYMBOL = "recommendationsBySymbol",
-  MOST_WATCHLISTED = "mostWatchlisted",
-  MARKET_SUMMARY = "marketSummary",
-  TRENDING = "trending",
-  GET_MOVERS = "getMovers",
-}
 
 const queryYahooFinance = (
   endpointName: YahooFinanceEndpointNames,
@@ -36,7 +43,7 @@ const queryYahooFinance = (
     url: `${YAHOO_FINANCE_BASE_URL}${getEndpointUrl(endpointName)}`,
     params,
     headers: {
-      "x-api-key": process.env.YAHOO_FINANCE_API_KEY || "",
+      "x-api-key": process.env.REACT_APP_YAHOO_FINANCE_API_KEY || "",
     },
   };
   return axios.request(options);

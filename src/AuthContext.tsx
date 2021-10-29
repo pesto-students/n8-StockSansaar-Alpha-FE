@@ -15,7 +15,9 @@ const app = initializeApp({
 });
 const auth = getAuth();
 axios.interceptors.request.use(async (config) => {
-  config!.headers!.token = (await auth.currentUser?.getIdToken()) || "";
+  if (config.url?.includes("localhost:7000")) {
+    config!.headers!.token = (await auth.currentUser?.getIdToken()) || "";
+  }
   return config;
 });
 export const AuthContext = React.createContext({ auth });

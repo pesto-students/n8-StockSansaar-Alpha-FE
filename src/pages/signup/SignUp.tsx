@@ -90,7 +90,9 @@ function SignUpPage() {
             id="login-email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
-            onBlur={(e) => formValidation.setFormValidity(e, setEmailError)}
+            onBlur={() =>
+              formValidation.checkEmailValidity(email, setEmailError)
+            }
             helperText={emailError ? "Enter Correct Email" : null}
             error={emailError}
           />

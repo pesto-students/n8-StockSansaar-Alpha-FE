@@ -14,7 +14,7 @@ function LoginPage() {
   const history = useHistory();
   const [emailError, setEmailError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const handleClose = (event: any, reason: any) => {
@@ -57,7 +57,7 @@ function LoginPage() {
         id="login-email"
         label="Email"
         onChange={(e) => setEmail(e.target.value)}
-        onBlur={(event) => formValidation.setFormValidity(event, setEmailError)}
+        onBlur={() => formValidation.checkEmailValidity(email, setEmailError)}
         helperText={emailError ? "Enter Correct Email" : null}
         error={emailError}
         autoComplete="on"
