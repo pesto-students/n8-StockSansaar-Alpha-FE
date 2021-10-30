@@ -23,10 +23,14 @@ export default function Strategies() {
   const [strategies, setStrategies] = React.useState<Array<any>>();
   const history = useHistory();
   async function getStrategies() {
-    axios.get("http://localhost:7000/strategy/all").then((res) => {
-      const allStrategies = res.data || [];
-      setStrategies(allStrategies);
-    });
+    axios
+      .get(
+        "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/strategy/all"
+      )
+      .then((res) => {
+        const allStrategies = res.data || [];
+        setStrategies(allStrategies);
+      });
   }
   React.useEffect(() => {
     if (!strategies) {

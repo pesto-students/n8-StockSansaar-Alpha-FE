@@ -8,6 +8,8 @@ import CenterCard from "../../components/organisms/CenterCard";
 import formValidation from "../../helpers/formValidation";
 
 const WELCOME_MSG = "Welcome Back";
+const SIGNIN_BUTTON = "Sign In";
+const SIGNUP_BUTTON = "Sign Up";
 const auth = getAuth();
 
 function LoginPage() {
@@ -74,7 +76,7 @@ function LoginPage() {
           color="primary"
           onClick={() => signIn(email, password)}
         >
-          Sign In
+          {SIGNIN_BUTTON}
         </Button>
         <Typography variant="body2">OR</Typography>
         <Button
@@ -82,7 +84,7 @@ function LoginPage() {
           color="secondary"
           onClick={() => history.push("/signup")}
         >
-          Sign Up
+          {SIGNUP_BUTTON}
         </Button>
       </div>
     </div>

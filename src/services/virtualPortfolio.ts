@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 // const BASE_URL = "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/";
-const BASE_URL = "http://localhost:7000/";
+const BASE_URL = "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/";
 
 export enum VirtualPortfolioEndpointNames {
   CREATE = "createPortfolio",

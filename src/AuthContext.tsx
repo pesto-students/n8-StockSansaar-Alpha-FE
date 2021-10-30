@@ -15,7 +15,11 @@ const app = initializeApp({
 });
 const auth = getAuth();
 axios.interceptors.request.use(async (config) => {
-  if (config.url?.includes("localhost:7000")) {
+  if (
+    config.url?.includes(
+      "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev"
+    )
+  ) {
     config!.headers!.token = (await auth.currentUser?.getIdToken()) || "";
   }
   return config;

@@ -13,9 +13,6 @@ const columns = [
   { field: "industry", headerName: "Industry", flex: 0.8 },
 ];
 const useStyles = makeStyles({
-  padding1: {
-    paddingLeft: "1rem!important",
-  },
   gutterBottom: {
     marginBottom: "2rem",
   },
@@ -33,7 +30,9 @@ export default function StockList() {
   React.useEffect(() => {
     if (!stockListData.length) {
       axios
-        .get(`http://localhost:7000/strategy/get-stocks/${strategyName}`)
+        .get(
+          `https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/strategy/get-stocks/${strategyName}`
+        )
         .then((res) => {
           const stockList = res.data || [];
           setStockListData(stockList);
@@ -63,7 +62,7 @@ export default function StockList() {
             history.push(`${strategyName}/stock/${row.row.symbol}`)
           }
           classes={{
-            cell: classes.padding1,
+            cell: "paddingLeft1",
           }}
           columns={columns}
           pageSize={10}
