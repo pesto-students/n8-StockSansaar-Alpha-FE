@@ -36,12 +36,21 @@ const getEndpointUrl = (name: YahooFinanceEndpointNames) => {
 
 const queryYahooFinance = (
   endpointName: YahooFinanceEndpointNames,
-  params: any = {}
+  params: any = {},
+  trailingUrl?: String
 ) => {
   const options: AxiosRequestConfig = {
     method: "GET",
-    url: `${YAHOO_FINANCE_BASE_URL}${getEndpointUrl(endpointName)}`,
+    url: `${YAHOO_FINANCE_BASE_URL}${getEndpointUrl(endpointName)}${
+      trailingUrl ? `/${trailingUrl}` : ""
+    }`,
     params,
+    paramsSerializer: function (params: any) {
+      let finalString = "";
+      for (const key in params)
+        finalString = finalString + `&${key + "=" + params[key]}`;
+      return finalString;
+    },
     headers: {
       "x-api-key": process.env.REACT_APP_YAHOO_FINANCE_API_KEY || "",
     },

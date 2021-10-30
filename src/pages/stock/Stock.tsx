@@ -1,4 +1,14 @@
-import { Button, Popover, useTheme } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Popover,
+  TextField,
+  useTheme,
+} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -6,23 +16,18 @@ import Typography from "@material-ui/core/Typography";
 import ArticleIcon from "@material-ui/icons/Description";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   AdvancedRealTimeChart,
   CompanyProfile,
 } from "react-ts-tradingview-widgets";
 import StockStatistic from "../../components/molecules/StockStatistic";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import statisticsData from "../../mockdata/keyStatistics";
-import summaryData from "../../mockdata/stockSummary";
-import stockSummaryReader from "../../readers/yahooStockSummary";
 import stockStatsReader from "../../readers/yahooStockKeyStats";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
+import stockSummaryReader from "../../readers/yahooStockSummary";
+import queryYahooFinance, {
+  YahooFinanceEndpointNames,
+} from "../../services/yahooFinanceData";
 
 const useStyles = makeStyles({
   header: {
@@ -38,6 +43,12 @@ const useStyles = makeStyles({
     gridTemplateColumns: "repeat(auto-fill, 15rem)",
   },
 });
+interface TabPanelProps {
+  children?: React.ReactNode;
+  dir?: string;
+  index: number;
+  value: number;
+}
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -76,16 +87,58 @@ const ChartWidget = React.memo(({ theme, symbol }: any) => (
   </div>
 ));
 
+const DETAILED_ANALYTICS_BUTTON = "Detailed Analytics";
+
+const BuyStockDialog = ({ handleDialogClose, dialogOpen, symbol }: any) => {
+  const [buyQuantity, setBuyQuantity] = React.useState(0);
+  return (
+    <Dialog
+      open={dialogOpen}
+      onClose={handleDialogClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Buy Stock"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Enter Quantity To Buy for {symbol}
+        </DialogContentText>
+        <TextField
+          type="number"
+          onChange={(e) => setBuyQuantity(Number(e.target.value))}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleDialogClose} color="primary">
+          Cancel
+        </Button>
+        <Button
+          data-kite={process.env.REACT_APP_KITE_API_KEY}
+          data-exchange="NSE"
+          data-tradingsymbol={symbol}
+          data-transaction_type="BUY"
+          data-quantity={buyQuantity}
+          data-order_type="MARKET"
+          variant="contained"
+          autoFocus
+        >
+          Buy
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export default function StockPage() {
   const theme = useTheme();
   const history = useHistory();
   const classes = useStyles();
   const { stockName }: any = useParams();
-  const keyStatistics = statisticsData.result[0].defaultKeyStatistics;
-  const stockSummary = summaryData.result[0].summaryDetail;
+  const [stockSummary, setStockSummary] = React.useState();
+  const [keyStatistics, setKeyStatistics] = React.useState();
   const symbol = stockName.toUpperCase();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -99,10 +152,20 @@ export default function StockPage() {
   const [value, setValue] = React.useState(0);
 
   React.useEffect(() => {
-    // queryYahooFinance(EndpointNames.TRENDING).then((result) => {
-    //   console.log(result);
-    // });
-  });
+    queryYahooFinance(
+      YahooFinanceEndpointNames.QUOTE_SUMMARY,
+      {
+        lang: "en",
+        modules: "summaryDetail%2CdefaultKeyStatistics",
+        region: "IN",
+      },
+      `${stockName}.NS`
+    ).then((result) => {
+      const data = result.data.quoteSummary?.result[0];
+      setStockSummary(data?.summaryDetail);
+      setKeyStatistics(data?.defaultKeyStatistics);
+    });
+  }, [stockName]);
 
   React.useEffect(() => {
     const script = document.createElement("script");
@@ -134,7 +197,19 @@ export default function StockPage() {
               color="primary"
               onClick={() => history.push(`${symbol}/detail`)}
             >
-              Detailed Analytics
+              {DETAILED_ANALYTICS_BUTTON}
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              data-kite={process.env.REACT_APP_KITE_API_KEY}
+              data-exchange="NSE"
+              data-tradingsymbol={symbol}
+              data-transaction_type="BUY"
+              data-quantity="1"
+              data-order_type="MARKET"
+            >
+              Buy
             </Button>
           </div>
         </div>
@@ -227,6 +302,13 @@ export default function StockPage() {
           </TabPanel>
         </Box>
       </Box>
+      <BuyStockDialog
+        dialogOpen={dialogOpen}
+        handleDialogClose={() => {
+          setDialogOpen(false);
+        }}
+        symbol={symbol}
+      />
     </ViewWrapper>
   );
 }

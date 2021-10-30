@@ -19,30 +19,46 @@ const useStyles = makeStyles({
   itemText: {
     padding: "1rem 0",
   },
+  linkText: {
+    color: "red",
+  },
 });
 const homepageData = [
   {
     title: "Strategies",
     image: "/images/strategy.jpg",
-    text: "HElfdkaj fdajl kfdjlfj adlfjdl fjdsalfj alfjdslkfjalsdjfladsj ladjflakjf dslkf jad;lkfjdsalfj a;",
+    text: (
+      <div>
+        The Strategies are formulated and created by experts in the field. These
+        strategy indices are&nbsp;
+        <a
+          className="linkText"
+          href="https://www.nseindia.com/products-services/indices-strategy"
+        >
+          available here.
+        </a>
+        &nbsp;Choose your strategy from the strategies that have worked in the
+        past, analyse your stocks using the data and choose the right stock
+      </div>
+    ),
     redirectPage: "/strategies",
   },
   {
     title: "Virtual Portfolio",
     image: "/images/stockPortfolio.jpg",
-    text: "HElfdkaj fdajl kfdjlfj adlfjdl fjdsalfj alfjdslkfjalsdjfladsj ladjflakjf dslkf jad;lkfjdsalfj a;",
+    text: "Market does not give free chances, but our virtual portfolio does. You can add stock to the vitual portfolio and analyse stocks based upon your judgement. Monitor how your stocks are doing before actually investing the money.",
     redirectPage: "/virtual-portfolio",
   },
   {
     title: "Screener",
     image: "/images/findStock.jpg",
-    text: "HElfdkaj fdajl kfdjlfj adlfjdl fjdsalfj alfjdslkfjalsdjfladsj ladjflakjf dslkf jad;lkfjdsalfj a;",
+    text: "Create you own strategy by observe whats happening in the markets. Top gainers, Top losers, stocks performing technically or fundamentally, all of this data is available for you to filter stocks based upon your needs. If you already have your own strategy, this might be actually the right place to find stocks who follows your strategy.",
     redirectPage: "/screener",
   },
   {
     title: "News",
     image: "/images/stockNews.jpg",
-    text: "HElfdkaj fdajl kfdjlfj adlfjdl fjdsalfj alfjdslkfjalsdjfladsj ladjflakjf dslkf jad;lkfjdsalfj a;",
+    text: "Effect of news on stock market is very significant. If you can judge market's emotion by a news, then you often can take right decisions at right time.",
     redirectPage: "/news",
   },
 ];

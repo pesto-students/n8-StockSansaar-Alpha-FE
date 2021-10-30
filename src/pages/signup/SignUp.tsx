@@ -16,6 +16,7 @@ import {
   PASSWORD_PATTERN_NOT_MATCH_TEXT,
   PASSWORDS_DONT_MATCH,
 } from "../../constants/formValidation";
+import { SIGNUP_SUCCESS_MESSAGE } from "../../constants/userInfoMessages";
 import formValidation from "../../helpers/formValidation";
 
 const auth = getAuth();
@@ -37,6 +38,9 @@ const useStyles = makeStyles({
 
 function SignUpPage() {
   const WELCOME_MSG = "Welcome To StockSansaar";
+  const TRADING_IMAGE_TEXT = "We will Trade Good Stocks";
+  const GO_TO_SIGNIN = "Back To Sign In";
+  const SIGNUP_BUTTON = "Sign Up";
   const history = useHistory();
   const classes = useStyles();
   const [emailError, setEmailError] = useState(false);
@@ -70,12 +74,10 @@ function SignUpPage() {
         // Signed in
         setOpenSnackbar(true);
         setTimeout(() => history.push("/"), 3000);
-        // ...
       })
       .catch((error) => {
         setOpenSnackbar(true);
         setErrorMessage(error.message);
-        // ..
       });
   };
 
@@ -131,7 +133,7 @@ function SignUpPage() {
               }
               onClick={() => signUp(email, password)}
             >
-              Sign Up
+              {SIGNUP_BUTTON}
             </Button>
           </div>
           <div>or</div>
@@ -142,7 +144,7 @@ function SignUpPage() {
                 history.push("/");
               }}
             >
-              Back To Sign In
+              {GO_TO_SIGNIN}
             </Button>
           </div>
         </Grid>
@@ -153,7 +155,7 @@ function SignUpPage() {
             alt="Stocks Page"
             className={classes.signupImage}
           />
-          <Typography variant="body2">We will Trade Good Stocks</Typography>
+          <Typography variant="body2">{TRADING_IMAGE_TEXT}</Typography>
         </Grid>
       </Grid>
       <Popover
@@ -193,7 +195,7 @@ function SignUpPage() {
           </Alert>
         ) : (
           <Alert onClose={handleClose} severity="success">
-            Signup Successful! Redirecting to Home Page!
+            {SIGNUP_SUCCESS_MESSAGE}
           </Alert>
         )}
       </Snackbar>

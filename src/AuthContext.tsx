@@ -2,7 +2,8 @@ import { getAuth } from "@firebase/auth";
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import React, { useEffect, useState } from "react";
-
+import CryptoJS from "crypto-js";
+import { BASE_URL } from "./constants/appConstants";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -15,8 +16,15 @@ const app = initializeApp({
 });
 const auth = getAuth();
 axios.interceptors.request.use(async (config) => {
-  if (config.url?.includes("localhost:7000")) {
-    config!.headers!.token = (await auth.currentUser?.getIdToken()) || "";
+  if (config.url?.includes(BASE_URL)) {
+    console.log(config);
+    config!.params = {
+      ...config.params,
+      token: CryptoJS.AES.encrypt(
+        await auth.currentUser?.getIdToken(),
+        process.env.REACT_APP_TOKEN_KEY
+      ).toString(),
+    };
   }
   return config;
 });

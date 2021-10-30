@@ -5,6 +5,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import ViewWrapper from "../components/wrappers/ViewWrapper";
 import { makeStyles } from "@material-ui/core";
+import { BASE_URL } from "../constants/appConstants";
 const useStyles = makeStyles({
   strategyCard: {
     padding: "2rem",
@@ -23,7 +24,7 @@ export default function Strategies() {
   const [strategies, setStrategies] = React.useState<Array<any>>();
   const history = useHistory();
   async function getStrategies() {
-    axios.get("http://localhost:7000/strategy/all").then((res) => {
+    axios.get(`${BASE_URL}/strategy/all`).then((res) => {
       const allStrategies = res.data || [];
       setStrategies(allStrategies);
     });

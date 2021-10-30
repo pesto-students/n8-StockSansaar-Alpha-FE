@@ -62,3 +62,9 @@ iframe {
   justify-content: center;
   text-align: center;
 }
+.paddingLeft1 {
+  padding-left: 1rem !important;
+}
+.linkText {
+  color: red;
+}

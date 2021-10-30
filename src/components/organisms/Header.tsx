@@ -139,12 +139,7 @@ function TopNav({ themeChange, isDarkMode }: any) {
                     value="strategies"
                     onClick={() => history.push("/strategies")}
                   />
-                  <Tab
-                    label="News"
-                    value="news"
-                    onClick={() => history.push("/news")}
-                    {...a11yProps(2)}
-                  />
+
                   <Tab
                     label="Virtual Portfolio"
                     value="virtual-portfolio"
@@ -156,6 +151,12 @@ function TopNav({ themeChange, isDarkMode }: any) {
                     value="screener"
                     onClick={() => history.push("/screener")}
                     {...a11yProps(4)}
+                  />
+                  <Tab
+                    label="News"
+                    value="news"
+                    onClick={() => history.push("/news")}
+                    {...a11yProps(2)}
                   />
                 </Tabs>
               </Grid>

@@ -6,6 +6,7 @@ import React from "react";
 import { useLocation, useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
+import { BASE_URL } from "../../constants/appConstants";
 
 const columns = [
   { field: "symbol", headerName: "Symbol", flex: 0.6 },
@@ -13,9 +14,6 @@ const columns = [
   { field: "industry", headerName: "Industry", flex: 0.8 },
 ];
 const useStyles = makeStyles({
-  padding1: {
-    paddingLeft: "1rem!important",
-  },
   gutterBottom: {
     marginBottom: "2rem",
   },
@@ -33,7 +31,7 @@ export default function StockList() {
   React.useEffect(() => {
     if (!stockListData.length) {
       axios
-        .get(`http://localhost:7000/strategy/get-stocks/${strategyName}`)
+        .get(`${BASE_URL}/strategy/get-stocks/${strategyName}`)
         .then((res) => {
           const stockList = res.data || [];
           setStockListData(stockList);
@@ -59,11 +57,9 @@ export default function StockList() {
           autoHeight
           rows={stockListData}
           getRowId={(row: any) => row.symbol}
-          onRowClick={(row: any) =>
-            history.push(`${strategyName}/stock/${row.row.symbol}`)
-          }
+          onRowClick={(row: any) => history.push(`/stock/${row.row.symbol}`)}
           classes={{
-            cell: classes.padding1,
+            cell: "paddingLeft1",
           }}
           columns={columns}
           pageSize={10}

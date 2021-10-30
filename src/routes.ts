@@ -13,7 +13,7 @@ const routes = [
   },
   {
     key: 1,
-    path: "/strategies/:strategyName/stock/:stockName",
+    path: "/stock/:stockName",
     component: StockPage,
     exact: true,
   },
@@ -25,7 +25,7 @@ const routes = [
   },
   {
     key: 3,
-    path: "/strategies/:strategyName/stock/:stockName/detail",
+    path: "/stock/:stockName/detail",
     component: StockWidgetPage,
     exact: true,
   },

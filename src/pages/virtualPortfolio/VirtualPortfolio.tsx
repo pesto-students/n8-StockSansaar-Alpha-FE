@@ -23,9 +23,10 @@ import { Delete } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SearchIcon from "@material-ui/icons/Search";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
 import clsx from "clsx";
 import React, { useContext, useEffect } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../AuthContext";
 import TransitionsModal from "../../components/molecules/Modal";
@@ -53,7 +54,7 @@ function getPercentageChange(params: any) {
 }
 
 const columns = [
-  { field: "symbol", headerName: "Symbol", flex: 0.6 },
+  { field: "symbol", headerName: "Symbol", flex: 0.8 },
   { field: "name", headerName: "Company Name", flex: 1 },
   { field: "price", headerName: "Buy Price", flex: 0.8 },
   { field: "currentPrice", headerName: "Current Price", flex: 0.8 },
@@ -67,9 +68,9 @@ const columns = [
     field: "changePercentage",
     headerName: "%Profit/Loss",
     valueGetter: getPercentageChange,
-    flex: 0.8,
+    flex: 0.9,
   },
-  { field: "quantity", headerName: "Quantity", flex: 0.8 },
+  { field: "quantity", headerName: "Quantity", flex: 0.6 },
   { field: "date", headerName: "Date Added", flex: 0.8 },
 ];
 const useStyles = makeStyles((theme: Theme) =>
@@ -109,6 +110,7 @@ export default function VirtualPortfolio() {
   const [searchValue, setSearchValue] = React.useState<String>("");
   const [searchResults, setSearchResults] = React.useState<Array<any>>([]);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const { auth } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -167,7 +169,6 @@ export default function VirtualPortfolio() {
           (selectedStock) => selectedStock.symbol === stock.symbol
         ) !== -1
       ) {
-        console.log("duplicate");
         return;
       }
     }
@@ -213,30 +214,39 @@ export default function VirtualPortfolio() {
     setDialogOpen(false);
   };
 
-  const createPortfolio = () => {
-    axios
-      .post("http://localhost:7000/virtual_portfolio/create", {
+  const createPortfolio = async () => {
+    setOpenCreatePortfolio(false);
+    const stocks = await addCurrentPriceToStocks(selectedStocks);
+    virtualPortfolioService(
+      "POST",
+      VirtualPortfolioEndpointNames.CREATE,
+      {},
+      {
         name: newPortfolioName,
         user: auth.currentUser?.uid,
-      })
-      .then((res) => {
-        setPortfolios([...portfolios, res.data]);
-      });
+        stocks,
+      }
+    ).then((res) => {
+      setPortfoliosWithoutPrice([...portfolios, res.data]);
+    });
   };
   const handleConfirmDelete = () => {
     setDialogOpen(false);
-    axios
-      .post("http://localhost:7000/virtual_portfolio/delete", {
+    virtualPortfolioService(
+      "POST",
+      VirtualPortfolioEndpointNames.DELETE,
+      {},
+      {
         id: portfolioToDelete,
-      })
-      .then((res: any) => {
-        setPortfolios(
-          portfolios?.filter(function (portfolio) {
-            console.log(res.data);
-            return portfolio._id !== res.data._id;
-          })
-        );
-      });
+      }
+    ).then((res: any) => {
+      setPortfolios(
+        portfolios?.filter(function (portfolio) {
+          console.log(res.data);
+          return portfolio._id !== res.data._id;
+        })
+      );
+    });
   };
 
   const renderSearchComponent = () => (
@@ -334,11 +344,12 @@ export default function VirtualPortfolio() {
   );
 
   useEffect(() => {
-    axios
-      .get("http://localhost:7000/virtual_portfolio/get-portfolio")
-      .then(async (res: any) => {
-        setPortfoliosWithoutPrice(res.data);
-      });
+    virtualPortfolioService(
+      "GET",
+      VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID
+    ).then(async (res: any) => {
+      setPortfoliosWithoutPrice(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -350,11 +361,28 @@ export default function VirtualPortfolio() {
           "currentPrice"
         );
       }
+      setLoading(false);
       setPortfolios(portfoliosCopy);
     };
-
+    setLoading(true);
     updatePortfoliosWithCurrentPrice();
   }, [portfoliosWithoutPrice]);
+
+  if (loading) {
+    console.log(loading);
+    return (
+      <ViewWrapper>
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <Skeleton className="marginY" height={80} width={400} count={1} />
+          <Skeleton className="marginY" height={80} count={1} />
+          <Skeleton height={40} count={4} />
+          <Skeleton className="marginY" height={80} count={1} />
+          <Skeleton className="marginY" height={80} count={1} />
+        </SkeletonTheme>
+      </ViewWrapper>
+    );
+  }
+
   return (
     <ViewWrapper
       header={
@@ -369,8 +397,8 @@ export default function VirtualPortfolio() {
         </div>
       }
     >
-      {portfolios?.map((portfolio) => (
-        <Accordion key={portfolio._id}>
+      {portfolios?.map((portfolio, index) => (
+        <Accordion key={portfolio._id} defaultExpanded={index === 0}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -397,7 +425,9 @@ export default function VirtualPortfolio() {
           </AccordionSummary>
           <AccordionDetails>
             <DataGrid
-              // @ts-ignore
+              classes={{
+                cell: "paddingLeft1",
+              }}
               rows={portfolio.stocks}
               getRowId={(row: any) => {
                 return row.symbol + row.date;

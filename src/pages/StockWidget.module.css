@@ -1,6 +1,6 @@
 #screener,
 #screener > div {
-  height: 100%;
+  height: 65vh;
 }
 .widget div {
   width: 100% !important;
