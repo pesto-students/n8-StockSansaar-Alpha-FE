@@ -27,4 +27,4 @@ jobs:
       - name: Deploy Site on Netlify
         run: |
           curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Team, a new deployment to NETLIFY for StockSansaar has been started!"}' ${{secrets.SLACK_NOTIFICATION_HOOK}}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Team, a new deployment to NETLIFY for StockSansaar has been started!"}' ${{secrets.SLACK_NOTIFICATION_WEBHOOK}}
