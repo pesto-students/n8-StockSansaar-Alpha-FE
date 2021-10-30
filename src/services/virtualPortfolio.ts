@@ -1,7 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-
-// const BASE_URL = "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/";
-const BASE_URL = "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/";
+import { BASE_URL } from "../constants/appConstants";
 
 export enum VirtualPortfolioEndpointNames {
   CREATE = "createPortfolio",
@@ -9,6 +7,7 @@ export enum VirtualPortfolioEndpointNames {
   GET_PORTFOLIO_FOR_USER = "getPortfolioForUser",
   REMOVE_STOCK = "removeStock",
   GET_PORTFOLIO_BY_ID = "getPortfolioById",
+  DELETE = "delete",
 }
 
 const getEndpointUrl = (name: VirtualPortfolioEndpointNames) => {
@@ -23,6 +22,8 @@ const getEndpointUrl = (name: VirtualPortfolioEndpointNames) => {
       return "virtual_portfolio/get-portfolio-for-user";
     case VirtualPortfolioEndpointNames.REMOVE_STOCK:
       return "virtual_portfolio/remove-stock";
+    case VirtualPortfolioEndpointNames.DELETE:
+      return "virtual_portfolio/delete";
     default:
       return "";
   }

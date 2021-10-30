@@ -5,6 +5,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import ViewWrapper from "../components/wrappers/ViewWrapper";
 import { makeStyles } from "@material-ui/core";
+import { BASE_URL } from "../constants/appConstants";
 const useStyles = makeStyles({
   strategyCard: {
     padding: "2rem",
@@ -23,14 +24,10 @@ export default function Strategies() {
   const [strategies, setStrategies] = React.useState<Array<any>>();
   const history = useHistory();
   async function getStrategies() {
-    axios
-      .get(
-        "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/strategy/all"
-      )
-      .then((res) => {
-        const allStrategies = res.data || [];
-        setStrategies(allStrategies);
-      });
+    axios.get(`${BASE_URL}/strategy/all`).then((res) => {
+      const allStrategies = res.data || [];
+      setStrategies(allStrategies);
+    });
   }
   React.useEffect(() => {
     if (!strategies) {

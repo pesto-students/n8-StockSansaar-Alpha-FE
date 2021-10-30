@@ -23,16 +23,14 @@ import { Delete } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SearchIcon from "@material-ui/icons/Search";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
 import clsx from "clsx";
 import React, { useContext, useEffect } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../AuthContext";
 import TransitionsModal from "../../components/molecules/Modal";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
-import "react-loading-skeleton/dist/skeleton.css";
 import virtualPortfolioService, {
   VirtualPortfolioEndpointNames,
 } from "../../services/virtualPortfolio";
@@ -219,36 +217,36 @@ export default function VirtualPortfolio() {
   const createPortfolio = async () => {
     setOpenCreatePortfolio(false);
     const stocks = await addCurrentPriceToStocks(selectedStocks);
-    axios
-      .post(
-        "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/virtual_portfolio/create",
-        {
-          name: newPortfolioName,
-          user: auth.currentUser?.uid,
-          stocks,
-        }
-      )
-      .then((res) => {
-        setPortfoliosWithoutPrice([...portfolios, res.data]);
-      });
+    virtualPortfolioService(
+      "POST",
+      VirtualPortfolioEndpointNames.CREATE,
+      {},
+      {
+        name: newPortfolioName,
+        user: auth.currentUser?.uid,
+        stocks,
+      }
+    ).then((res) => {
+      setPortfoliosWithoutPrice([...portfolios, res.data]);
+    });
   };
   const handleConfirmDelete = () => {
     setDialogOpen(false);
-    axios
-      .post(
-        "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/virtual_portfolio/delete",
-        {
-          id: portfolioToDelete,
-        }
-      )
-      .then((res: any) => {
-        setPortfolios(
-          portfolios?.filter(function (portfolio) {
-            console.log(res.data);
-            return portfolio._id !== res.data._id;
-          })
-        );
-      });
+    virtualPortfolioService(
+      "POST",
+      VirtualPortfolioEndpointNames.DELETE,
+      {},
+      {
+        id: portfolioToDelete,
+      }
+    ).then((res: any) => {
+      setPortfolios(
+        portfolios?.filter(function (portfolio) {
+          console.log(res.data);
+          return portfolio._id !== res.data._id;
+        })
+      );
+    });
   };
 
   const renderSearchComponent = () => (
@@ -346,13 +344,12 @@ export default function VirtualPortfolio() {
   );
 
   useEffect(() => {
-    axios
-      .get(
-        "https://8ls67k7juh.execute-api.us-west-1.amazonaws.com/dev/virtual_portfolio/get-portfolio"
-      )
-      .then(async (res: any) => {
-        setPortfoliosWithoutPrice(res.data);
-      });
+    virtualPortfolioService(
+      "GET",
+      VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID
+    ).then(async (res: any) => {
+      setPortfoliosWithoutPrice(res.data);
+    });
   }, []);
 
   useEffect(() => {
