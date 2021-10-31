@@ -19,7 +19,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Delete, Refresh } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SearchIcon from "@material-ui/icons/Search";
 import { DataGrid } from "@mui/x-data-grid";
@@ -40,8 +40,9 @@ import queryYahooFinance, {
 
 function getNetProfitLoss(params: any) {
   return (
-    parseFloat(params.getValue(params.id, "currentPrice")) -
-    parseFloat(params.getValue(params.id, "price"))
+    (parseFloat(params.getValue(params.id, "currentPrice")) -
+      parseFloat(params.getValue(params.id, "price"))) *
+    parseInt(params.getValue(params.id, "quantity"))
   );
 }
 
@@ -184,8 +185,8 @@ export default function VirtualPortfolio() {
       {},
       payload
     ).then((updatedPortfolio) => {
-      setPortfolios([
-        ...portfolios!.filter(
+      setPortfoliosWithoutPrice([
+        ...portfoliosWithoutPrice!.filter(
           (portfolio) => portfolio._id !== selectedPortfolio._id
         ),
         updatedPortfolio.data,
@@ -246,6 +247,25 @@ export default function VirtualPortfolio() {
           return portfolio._id !== res.data._id;
         })
       );
+    });
+  };
+
+  const portfolioRefreshHandler = (id: string) => {
+    virtualPortfolioService(
+      "POST",
+      VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID,
+      {},
+      {
+        portfolioId: id,
+      }
+    ).then((res) => {
+      console.log(res);
+      setPortfoliosWithoutPrice([
+        ...portfoliosWithoutPrice.filter(
+          (portfolio) => portfolio._id !== res.data[0]._id
+        ),
+        res.data[0],
+      ]);
     });
   };
 
@@ -346,7 +366,7 @@ export default function VirtualPortfolio() {
   useEffect(() => {
     virtualPortfolioService(
       "GET",
-      VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID
+      VirtualPortfolioEndpointNames.GET_PORTFOLIOS
     ).then(async (res: any) => {
       setPortfoliosWithoutPrice(res.data);
     });
@@ -422,6 +442,7 @@ export default function VirtualPortfolio() {
                 setPortfolioToDelete(portfolio._id);
               }}
             />
+            <Refresh onClick={() => portfolioRefreshHandler(portfolio._id)} />
           </AccordionSummary>
           <AccordionDetails>
             <DataGrid

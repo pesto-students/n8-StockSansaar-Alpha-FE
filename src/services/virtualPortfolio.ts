@@ -4,7 +4,7 @@ import { BASE_URL } from "../constants/appConstants";
 export enum VirtualPortfolioEndpointNames {
   CREATE = "createPortfolio",
   ADD_STOCK = "addStock",
-  GET_PORTFOLIO_FOR_USER = "getPortfolioForUser",
+  GET_PORTFOLIOS = "getPortfolios",
   REMOVE_STOCK = "removeStock",
   GET_PORTFOLIO_BY_ID = "getPortfolioById",
   DELETE = "delete",
@@ -13,17 +13,17 @@ export enum VirtualPortfolioEndpointNames {
 const getEndpointUrl = (name: VirtualPortfolioEndpointNames) => {
   switch (name) {
     case VirtualPortfolioEndpointNames.CREATE:
-      return "virtual_portfolio/create";
+      return "/virtual_portfolio/create";
     case VirtualPortfolioEndpointNames.ADD_STOCK:
-      return "virtual_portfolio/add-stock";
+      return "/virtual_portfolio/add-stock";
     case VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID:
-      return "virtual_portfolio/get-portfolio-by-id";
-    case VirtualPortfolioEndpointNames.GET_PORTFOLIO_FOR_USER:
-      return "virtual_portfolio/get-portfolio-for-user";
+      return "/virtual_portfolio/get-portfolio-by-id";
+    case VirtualPortfolioEndpointNames.GET_PORTFOLIOS:
+      return "/virtual_portfolio/get-portfolio";
     case VirtualPortfolioEndpointNames.REMOVE_STOCK:
-      return "virtual_portfolio/remove-stock";
+      return "/virtual_portfolio/remove-stock";
     case VirtualPortfolioEndpointNames.DELETE:
-      return "virtual_portfolio/delete";
+      return "/virtual_portfolio/delete";
     default:
       return "";
   }

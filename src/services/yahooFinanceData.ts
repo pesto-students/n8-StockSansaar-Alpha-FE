@@ -52,7 +52,7 @@ const queryYahooFinance = (
       return finalString;
     },
     headers: {
-      "x-api-key": process.env.REACT_APP_YAHOO_FINANCE_API_KEY || "",
+      "x-api-key": process.env.REACT_APP_YAHOO_FINANCE_API_KEY2 || "",
     },
   };
   return axios.request(options);
