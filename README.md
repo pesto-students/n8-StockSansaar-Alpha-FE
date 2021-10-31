@@ -1,3 +1,14 @@
+# StockSansaar
+A platform to find, filter, analyze, and observe stocks and data.
+
+Login / Signup - user registration and authentication.
+Strategies Page - Choose a strategy to trade.
+Stock List - View, Filter, Sort, and open stock details.
+Stock Page - View all details particular to a stock.
+Stock Transact - Buy or sell stock at market price.
+Screener - To find stocks based upon various trends and momentum in the market.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
