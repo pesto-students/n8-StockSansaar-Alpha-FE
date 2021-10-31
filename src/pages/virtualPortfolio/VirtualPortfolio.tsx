@@ -15,6 +15,7 @@ import {
   makeStyles,
   MenuItem,
   Paper,
+  Snackbar,
   TextField,
   Theme,
   Typography,
@@ -29,6 +30,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../AuthContext";
+import Alert from "../../components/molecules/Alert";
 import TransitionsModal from "../../components/molecules/Modal";
 import ViewWrapper from "../../components/wrappers/ViewWrapper";
 import virtualPortfolioService, {
@@ -105,6 +107,12 @@ const useStyles = makeStyles((theme: Theme) =>
     deleteButton: {},
   })
 );
+
+type SnackbarResponse = {
+  message: String;
+  status: "success" | "error";
+};
+
 export default function VirtualPortfolio() {
   const classes = useStyles();
   const history = useHistory();
@@ -121,6 +129,9 @@ export default function VirtualPortfolio() {
   const [openCreatePortfolio, setOpenCreatePortfolio] = React.useState(false);
   const [selectedStocks, setSelectedStocks] = React.useState<Array<any>>([]);
   const [portfolioToDelete, setPortfolioToDelete] = React.useState<String>();
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarResponse, setSnackbarResponse] =
+    React.useState<SnackbarResponse>({ message: "", status: "success" });
   const [portfoliosWithoutPrice, setPortfoliosWithoutPrice] = React.useState<
     Array<any>
   >([]);
@@ -141,6 +152,14 @@ export default function VirtualPortfolio() {
       return () => clearTimeout(timeout);
     }
   }, [searchValue]);
+
+  const handleSnackbarClose = (event: any, reason: any) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
 
   const addCurrentPriceToStocks = async (
     stocksWithoutPrice: any,
@@ -192,6 +211,11 @@ export default function VirtualPortfolio() {
         updatedPortfolio.data,
       ]);
       setOpen(false);
+      setOpenSnackbar(true);
+      setSnackbarResponse({
+        message: "Stocks Added to the portfolio",
+        status: "success",
+      });
     });
     setSelectedStocks([]);
     setShowSearchResults(false);
@@ -229,6 +253,11 @@ export default function VirtualPortfolio() {
       }
     ).then((res) => {
       setPortfoliosWithoutPrice([...portfolios, res.data]);
+      setOpenSnackbar(true);
+      setSnackbarResponse({
+        message: "Portfolio Created Successfully",
+        status: "success",
+      });
     });
   };
   const handleConfirmDelete = () => {
@@ -247,25 +276,37 @@ export default function VirtualPortfolio() {
           return portfolio._id !== res.data._id;
         })
       );
+      setOpenSnackbar(true);
+      setSnackbarResponse({
+        message: "Portfolio Deleted Successfully",
+        status: "success",
+      });
     });
   };
 
-  const portfolioRefreshHandler = (id: string) => {
-    virtualPortfolioService(
-      "POST",
-      VirtualPortfolioEndpointNames.GET_PORTFOLIO_BY_ID,
-      {},
-      {
-        portfolioId: id,
-      }
-    ).then((res) => {
-      console.log(res);
-      setPortfoliosWithoutPrice([
-        ...portfoliosWithoutPrice.filter(
-          (portfolio) => portfolio._id !== res.data[0]._id
-        ),
-        res.data[0],
-      ]);
+  const portfolioRefreshHandler = async (
+    event: any,
+    portfolioToRefresh: any
+  ) => {
+    event.stopPropagation();
+    console.log(portfolioToRefresh.stocks);
+    const stocksWithNewPrices = await addCurrentPriceToStocks(
+      portfolioToRefresh.stocks
+    );
+    const updatedPortfolioToRefresh = {
+      ...portfolioToRefresh,
+      stocks: stocksWithNewPrices,
+    };
+    setPortfolios([
+      ...portfolios.filter(
+        (portfolio) => portfolio._id !== portfolioToRefresh._id
+      ),
+      updatedPortfolioToRefresh,
+    ]);
+    setOpenSnackbar(true);
+    setSnackbarResponse({
+      message: "Portfolio Refreshed with Current Prices",
+      status: "success",
     });
   };
 
@@ -309,13 +350,14 @@ export default function VirtualPortfolio() {
           </Grid>
           <Grid item xs={1}>
             <Delete
-              onClick={() =>
+              onClick={(e) => {
+                e.stopPropagation();
                 setSelectedStocks([
                   ...selectedStocks.filter(
                     (selectedStock) => selectedStock.symbol !== stock.symbol
                   ),
-                ])
-              }
+                ]);
+              }}
             />
           </Grid>
         </Grid>
@@ -442,7 +484,7 @@ export default function VirtualPortfolio() {
                 setPortfolioToDelete(portfolio._id);
               }}
             />
-            <Refresh onClick={() => portfolioRefreshHandler(portfolio._id)} />
+            <Refresh onClick={(e) => portfolioRefreshHandler(e, portfolio)} />
           </AccordionSummary>
           <AccordionDetails>
             <DataGrid
@@ -547,6 +589,15 @@ export default function VirtualPortfolio() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarResponse.status}>
+          {snackbarResponse.message}
+        </Alert>
+      </Snackbar>
     </ViewWrapper>
   );
 }
