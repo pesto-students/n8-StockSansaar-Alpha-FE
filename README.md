@@ -14,7 +14,7 @@ Screener - To find stocks based upon various trends and momentum in the market.
 username - test@stocksansaar.com \
 password - Testing@123
 
-
+## Project Resources
 Backend Repo -> https://github.com/SanujBansal/StockSansaar-backend \
 Deployment Link -> https://stocksansaar.netlify.app \
 PRD -> https://sanujbansal.slite.com/api/s/note/GYx2u2qC3HewAn6TdmwyAS/StockSansaar \
