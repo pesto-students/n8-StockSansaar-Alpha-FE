@@ -1,17 +1,18 @@
 # StockSansaar
-A platform to find, filter, analyze, and observe stocks and data.
+A platform to find, filter, analyze, and observe stocks and data. 
 
-Login / Signup - user registration and authentication.
-Strategies Page - Choose a strategy to trade.
-Stock List - View, Filter, Sort, and open stock details.
-Stock Page - View all details particular to a stock.
-Stock Transact - Buy or sell stock at market price.
-Screener - To find stocks based upon various trends and momentum in the market.
+Login / Signup - user registration and authentication. \
+Strategies Page - Choose a strategy to trade. \
+Stock List - View, Filter, Sort, and open stock details. \
+Stock Page - View all details particular to a stock. \
+Stock Transact - Buy or sell stock at market price. \
+Screener - To find stocks based upon various trends and momentum in the market. 
 
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Backend Repo -> https://github.com/SanujBansal/StockSansaar-backend \
+Deployment Link -> https://stocksansaar.netlify.app \
+PRD -> https://sanujbansal.slite.com/api/s/note/GYx2u2qC3HewAn6TdmwyAS/StockSansaar \
+HLD -> https://lucid.app/lucidchart/a66cbe0f-90e0-412a-a3b4-b6237bc7b793/edit?viewport_loc=25%2C-45%2C2715%2C1306%2C0_0&invitationId=inv_d4c1cd15-1949-429c-a9b2-d1f6d9f315bb \
+Wireframes -> https://www.figma.com/file/4IQfKuNmfjpyaDutc0Eec0/StockSansaar?node-id=1%3A3
 
 ## Available Scripts
 
@@ -39,19 +40,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
