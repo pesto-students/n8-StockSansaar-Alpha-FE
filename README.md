@@ -1,12 +1,19 @@
 # StockSansaar
-A platform to find, filter, analyze, and observe stocks and data. 
 
+## Overview
+A platform to find, filter, analyze, and observe stocks and data. 
+### User Stories
 Login / Signup - user registration and authentication. \
 Strategies Page - Choose a strategy to trade. \
 Stock List - View, Filter, Sort, and open stock details. \
 Stock Page - View all details particular to a stock. \
 Stock Transact - Buy or sell stock at market price. \
 Screener - To find stocks based upon various trends and momentum in the market. 
+
+## Test Account
+username - test@stocksansaar.com \
+password - Testing@123
+
 
 Backend Repo -> https://github.com/SanujBansal/StockSansaar-backend \
 Deployment Link -> https://stocksansaar.netlify.app \
