@@ -39,11 +39,11 @@ Please Note:
 
 # Technology Stack
 
-- [Typescript)(https://www.typescriptlang.org)
+- [Typescript](https://www.typescriptlang.org)
 - [Material-UI](https://mui.com)
 - [Axios](https://axios-http.com/docs/intro)
 - [Firebase-Auth](https://firebase.google.com/docs/auth)
-- [React-Testing-Library)(https://testing-library.com/docs/react-testing-library/intro)
+- [React-Testing-Library](https://testing-library.com/docs/react-testing-library/intro)
 - [Sentry](https://sentry.io)
 <br/>
 
