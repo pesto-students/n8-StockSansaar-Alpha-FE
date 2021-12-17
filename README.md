@@ -1,49 +1,58 @@
-# StockSansaar
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0724f78a-e461-41d3-9583-2641d466c7ae/deploy-status)](https://app.netlify.com/sites/stocksansaar/deploys)
 
-## Overview
-A platform to find, filter, analyze, and observe stocks and data. 
-### User Stories
-Login / Signup - user registration and authentication. \
-Strategies Page - Choose a strategy to trade. \
-Stock List - View, Filter, Sort, and open stock details. \
-Stock Page - View all details particular to a stock. \
-Stock Transact - Buy or sell stock at market price. \
-Screener - To find stocks based upon various trends and momentum in the market. 
+#
 
-## Test Account
-username - test@stocksansaar.com \
-password - Testing@123
+StockSansaar is a platform to find, filter, analyze, and observe stocks and data.
 
-## Project Resources
-Backend Repo -> https://github.com/SanujBansal/StockSansaar-backend \
-Deployment Link -> https://stocksansaar.netlify.app \
-PRD -> https://sanujbansal.slite.com/api/s/note/GYx2u2qC3HewAn6TdmwyAS/StockSansaar \
-HLD -> https://lucid.app/lucidchart/a66cbe0f-90e0-412a-a3b4-b6237bc7b793/edit?viewport_loc=25%2C-45%2C2715%2C1306%2C0_0&invitationId=inv_d4c1cd15-1949-429c-a9b2-d1f6d9f315bb \
-Wireframes -> https://www.figma.com/file/4IQfKuNmfjpyaDutc0Eec0/StockSansaar?node-id=1%3A3
+<br/>
 
-## Available Scripts
+# Table of Content
 
-In the project directory, you can run:
+1. [Demo](#demo)
+2. [Installation](#installation)
+3. [Technology Stack](#technology-stack)
+4. [Authors](#authors)
+5. [License](#license)
 
-### `yarn start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Demo
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[Live Demo](https://stocksansaar.netlify.app)
 
-### `yarn test`
+<br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Please Note:
 
-### `yarn build`
+1. We recommend using this app in Google Chrome
+2. Use the app on Laptop/desktop only as of now.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Fork or directly clone this repository to your local machine
+- Use the `yarn` command to install dependencies
+- Once the dependencies are finished installing, use the `yarn start` command inside the root directory to open the app in your local browser of choice
+
+<br/>
+
+# Technology Stack
+
+- [Typescript)(https://www.typescriptlang.org)
+- [Material-UI](https://mui.com)
+- [Axios](https://axios-http.com/docs/intro)
+- [Firebase-Auth](https://firebase.google.com/docs/auth)
+- [React-Testing-Library)(https://testing-library.com/docs/react-testing-library/intro)
+- [Sentry](https://sentry.io)
+<br/>
+
+# Authors
+
+- [Sanuj Bansal](https://www.github.com/SanujBansal)
+
+<br/>
+
+# License
+
+[MIT](https://opensource.org/licenses/MIT)
